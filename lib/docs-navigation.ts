@@ -34,6 +34,7 @@ export const docsNavigation: NavSection[] = [
       { label: 'Sign Commits', href: '/docs/sign-commits' },
       { label: 'Team Identities', href: '/docs/team-identities' },
       { label: 'Build Agents', href: '/docs/build-agents' },
+      { label: 'MCP Setup', href: '/docs/mcp-setup', badge: 'new' },
       { label: 'Prove Provenance', href: '/docs/prove-provenance' },
     ],
   },
