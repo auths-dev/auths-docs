@@ -8,9 +8,15 @@ export interface TocItem {
   level: 2 | 3
 }
 
+export interface DocFrontmatter {
+  title?: string
+  description?: string
+  [key: string]: unknown
+}
+
 export interface ParsedDoc {
   content: RenderableTreeNode
-  frontmatter: Record<string, unknown>
+  frontmatter: DocFrontmatter
   toc: TocItem[]
 }
 
@@ -47,10 +53,10 @@ function addHeadingIds(html: string): string {
  */
 export function parseDoc(
   source: string
-): { html: string; frontmatter: Record<string, unknown>; toc: TocItem[] } {
+): { html: string; frontmatter: DocFrontmatter; toc: TocItem[] } {
   const ast = Markdoc.parse(source)
-  const frontmatter = ast.attributes.frontmatter
-    ? (yaml.load(ast.attributes.frontmatter) as Record<string, unknown>)
+  const frontmatter: DocFrontmatter = ast.attributes.frontmatter
+    ? (yaml.load(ast.attributes.frontmatter) as DocFrontmatter)
     : {}
 
   // Extract TOC from AST
