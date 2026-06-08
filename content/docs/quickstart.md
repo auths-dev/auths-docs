@@ -88,6 +88,6 @@ Auths can render a **"Verified" badge** for a repository's releases using the em
 ## Next steps
 
 - **[Give an AI agent a scoped passport](/docs/mcp-setup)** — set up Auths for a Claude or Cursor MCP agent.
-- **[Run the agent demo](/docs/build-agents)** — the canonical agent/SDK hello-world.
+- **[Agent hello-world (`auths-agent-demo`)](https://github.com/auths-dev/auths-agent-demo)** — the canonical agent/SDK demo: an operator delegates scoped, time-bounded authority to AI agents, and a server verifies it (Python SDK; install from source with `pip install -e .`).
 - **[Sign commits in depth](/docs/sign-commits)** — signing ranges, CI, and team workflows.
 - **[Concepts](/docs/concepts/identity-model)** — how identities, keys, and verification work under the hood.

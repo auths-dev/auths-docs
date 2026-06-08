@@ -288,6 +288,7 @@ bun run build
 ## Related
 
 - [Auths GitHub](https://github.com/auths-dev/auths)
+- [Agent hello-world (`auths-agent-demo`)](https://github.com/auths-dev/auths-agent-demo) — the canonical agent/SDK demo (delegated, scoped, revocable agent identities; Python SDK)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Markdoc Documentation](https://markdoc.io)
 - [Tailwind CSS](https://tailwindcss.com)
