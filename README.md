@@ -285,6 +285,19 @@ bun run build
 # Outputs to ./out/
 ```
 
+## Source of truth & maintenance
+
+**Canonical docs (G6.4).** This site (`auths-docs`, Next.js + Markdoc) is the single canonical, dev-facing documentation surface. The older `docs/getting-started/` tree in the **`auths` repo** (its mkdocs site) is **superseded** and slated for retirement — until it is removed there, treat anything in it as stale and defer to this site. The [quickstart](content/docs/quickstart.md) is the canonical "getting started" entry; legacy `getting-started` URLs redirect to it via `next.config.ts`.
+
+> **Cross-repo follow-up:** retiring/redirecting `auths/docs/getting-started/` is done in the `auths` repo (separate repo/session), not here.
+
+**Deferred: CI command-name lint.** A CI check that fails the build when the docs reference a CLI command not in the real `RootCommand` (`auths/crates/auths-cli/src/cli.rs`) is **planned but not yet implemented** — this site has no CI yet. Candidate mechanisms when it's built:
+
+- **Local allowlist (lightweight):** a GitHub Action greps fenced ` ```bash ` blocks for `auths <cmd>` and checks them against the known visible command set (`init, sign, verify, status, whoami, demo, pair, trust, doctor, tutorial, config, completions`). Fast (bun/Node, no Rust toolchain); the list must be kept in sync with `cli.rs`.
+- **Build the binary (authoritative):** check out the `auths` repo, build `auths`, and reuse its `xtask gen-docs --check` to enumerate commands from the binary. Self-updating but heavy (Rust toolchain + cross-repo checkout) for a docs site.
+
+Until it lands, use the manual guard: `grep -rEoh 'auths [a-z-]+' content/docs | sort -u` and eyeball against the set above.
+
 ## Related
 
 - [Auths GitHub](https://github.com/auths-dev/auths)
