@@ -23,6 +23,7 @@ export const docsNavigation: NavSection[] = [
     title: 'Getting Started',
     items: [
       { label: 'Overview', href: '/docs' },
+      { label: 'Quickstart', href: '/docs/quickstart', badge: 'new' },
       { label: 'Installation', href: '/docs/installation' },
       { label: 'Authentication', href: '/docs/authentication' },
     ],
