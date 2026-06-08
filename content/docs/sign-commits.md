@@ -1,132 +1,94 @@
 ---
 title: Sign Commits
-description: Learn how to cryptographically sign your commits with Auths
+description: Cryptographically sign and verify your Git commits with Auths
 ---
 
-## Getting Started
+Signing a commit proves that **you** authored it — provably, offline, with no central server or API key. This guide assumes you've already installed Auths and run `auths init` (see the [quickstart](/docs/quickstart)).
 
-Commit signing is the foundation of code provenance. By signing your commits, you prove that you are the author and authorize the changes being made.
+## Sign a commit
 
-### Prerequisites
-
-- Auths CLI installed and configured
-- A Git repository
-- A valid signing key
-
-## Installation
-
-First, install the Auths CLI:
+Auths signs an existing commit. Make your commit with Git as usual, then sign it:
 
 ```bash
-cargo install auths
-```
-
-Verify the installation:
-
-```bash
-auths --version
-```
-
-## Signing Your First Commit
-
-To sign a commit, use the `sign-commit` command:
-
-```bash
-auths sign-commit
-```
-
-This command will:
-1. Read your staged changes
-2. Generate a signature using your private key
-3. Add metadata to your commit message
-
-### Example Workflow
-
-```bash
-# Make changes to your code
 git add .
-
-# Sign and commit
-auths sign-commit -m "Add new feature"
-
-# View the signed commit
-git log --oneline -1
+git commit -m "Add new feature"
+auths sign HEAD
 ```
 
-## Verifying Signatures
+You should see:
 
-To verify that a commit was signed correctly:
+```text
+✔ Signed: HEAD
+  Verify with `auths verify HEAD` or `git log --show-signature`.
+```
+
+`auths sign` auto-detects its target. You can also pass a **commit range** to sign several at once:
 
 ```bash
-auths verify-commit <commit-hash>
+auths sign HEAD~3..HEAD
 ```
 
-This will validate the signature against the public key and confirm the commit's authenticity.
+## Verify a signature
+
+```bash
+auths verify HEAD
+```
+
+`auths verify` defaults to `HEAD`; pass a commit, range, or attestation to check something else:
+
+```bash
+auths verify <commit-sha>
+auths verify HEAD~5..HEAD
+```
+
+A successful verification confirms the signature resolves to a trusted identity and the commit hasn't been altered.
+
+## Trusting other signers
+
+Verification checks signatures against your **trusted identity roots**. Pin a teammate's identity so their commits verify on your machine:
+
+```bash
+auths trust add did:keri:E...     # pin an identity as trusted
+auths trust list                  # show pinned identities
+auths trust show did:keri:E...    # details for one identity
+```
+
+See [Team Identities](/docs/team-identities) for sharing identities across a team.
 
 ## Configuration
 
-### Set Your Default Key
-
-Configure which key to use for signing:
+Auths stores configuration with `auths config`. For example, to control how long your passphrase is cached:
 
 ```bash
-auths config set signing-key <key-name>
+auths config set passphrase.cache always
+auths config get passphrase.cache
 ```
 
-### Enable Automatic Signing
+Run `auths config --help` for available keys.
 
-To automatically sign all commits:
+## Key management
 
-```bash
-auths config set auto-sign true
-```
-
-## Advanced Topics
-
-### Multiple Keys
-
-You can manage multiple signing keys:
-
-```bash
-auths key list
-auths key add <new-key>
-auths key remove <old-key>
-```
-
-### Key Rotation
-
-Rotate your signing key regularly for security:
-
-```bash
-auths key rotate
-```
+Your signing key is created and managed by `auths init`. Rotation, additional keys, and identity inspection live under the advanced identity commands (`auths id …`, visible via `auths --help-all`) — for example `auths id rotate`. See [Key Rotation](/docs/concepts/key-rotation) for the model behind pre-rotation and why old signatures stay valid after a rotation.
 
 ## Troubleshooting
 
-### Signature Verification Failed
+### Verification failed
 
 If verification fails, check that:
-- The correct public key is available
-- The commit hasn't been modified
-- Your local clock is synchronized
+- The signer's identity is pinned (`auths trust list`)
+- The commit hasn't been modified since signing
+- Your local clock is roughly correct
 
-### Permission Denied
+### Run a health check
 
-If you get permission errors:
-- Ensure your key file has correct permissions (600)
-- Check that you have read access to the key file
-- Verify the key path in your config
+```bash
+auths doctor
+```
 
-## Best Practices
+`auths doctor` reports common setup problems (and `auths doctor --fix` repairs what it can).
 
-1. **Sign all commits** - Make signing a standard part of your workflow
-2. **Rotate keys regularly** - Update your signing keys every 6-12 months
-3. **Secure key storage** - Keep private keys in a safe location
-4. **Share public keys** - Distribute your public key through secure channels
-5. **Verify critical commits** - Always verify signatures on production releases
+## Next steps
 
-## Next Steps
-
-- Learn about [team identities](/docs/team-identities)
-- Explore [key rotation](/docs/concepts/key-rotation)
-- Set up [build agents](/docs/build-agents) for CI/CD
+- [Prove provenance](/docs/prove-provenance) — verify ranges, artifacts, and CI builds
+- [Team identities](/docs/team-identities) — share and trust identities across a team
+- [Key rotation](/docs/concepts/key-rotation) — how rotation preserves historical validity

@@ -1,105 +1,90 @@
 ---
 title: Build Agents
-description: Automate code signing with agents in your CI/CD pipeline
+description: Sign and verify in CI/CD with the Auths GitHub Actions — no secrets
 ---
 
 ## Overview
 
-Agents are automated systems that can sign commits on behalf of your team. They're perfect for CI/CD pipelines, bots, and automated processes.
+Auths signs and verifies in CI/CD using **ephemeral keys** — there are no long-lived API keys or agent tokens to store as secrets. Two GitHub Actions cover the workflow:
 
-## Creating an Agent
+- **`auths-dev/sign`** — sign commits and/or build artifacts in CI.
+- **`auths-dev/verify`** — verify signatures on pull requests and releases.
 
-Create a new agent:
-
-```bash
-auths agent create --name "ci-bot" --type github-actions
-```
-
-This generates an agent configuration and credentials.
-
-## GitHub Actions Integration
-
-### Set up GitHub Actions
-
-Add the Auths action to your workflow:
+## Verify on every pull request
 
 ```yaml
-name: Sign Commit
-on: [push]
+name: Verify provenance
+on: [pull_request]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: auths-dev/verify@v1
+        with:
+          auths-version: '0.0.1-rc.12'   # pin the CLI (the action never resolves "latest")
+          fail-on-unsigned: 'true'
+          post-pr-comment: 'true'
+        # github-token: ${{ secrets.GITHUB_TOKEN }}   # only for the PR comment
+```
+
+## Sign artifacts on release
+
+```yaml
+name: Sign release artifacts
+on:
+  release:
+    types: [published]
 
 jobs:
   sign:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: auths-dev/auths-action@v1
+      - uses: actions/checkout@v4
+      - uses: auths-dev/sign@v1
         with:
-          agent-token: ${{ secrets.AUTHS_AGENT_TOKEN }}
-          signing-key: main
+          auths-version: '0.0.1-rc.12'
+          files: |
+            dist/*.tar.gz
+          fail-on-unanchored: 'true'
 ```
 
-### Configure Secrets
+The sign action emits `signed-files`, `attestation-files` (the `.auths.json` sidecars), and `signed-commits` outputs you can publish as release assets.
 
-Set up the agent token as a GitHub secret:
+## Stateless verification with an identity bundle
+
+By default the verify action uses KEL-native verification. For stateless verification against a specific identity, export a bundle and pass it in:
 
 ```bash
-auths agent get-token ci-bot | \
-  gh secret set AUTHS_AGENT_TOKEN --input -
+auths id export-bundle    # advanced (auths --help-all); commit to .auths/ci-bundle.json
 ```
 
-## Agent Policies
-
-### Restrict Agent Permissions
-
-Limit what an agent can do:
-
-```bash
-auths agent policy set ci-bot \
-  --allow-branches "main,develop" \
-  --allow-paths "src/" \
-  --require-review true
+```yaml
+      - uses: auths-dev/verify@v1
+        with:
+          identity-bundle: .auths/ci-bundle.json
+          auths-version: '0.0.1-rc.12'
 ```
 
-### Audit Agent Activity
+## Scoped agent credentials
 
-View all commits signed by an agent:
+For an autonomous agent (not a CI step) that needs to act on its own, delegate a **scoped, expiring** passport rather than reuse a human key — see the [MCP setup guide](/docs/mcp-setup) and the [agent demo](https://github.com/auths-dev/auths-agent-demo).
 
-```bash
-auths agent audit ci-bot --since "7 days ago"
-```
+## Security considerations
 
-## Security Considerations
-
-1. **Use separate keys** - Each agent should have its own signing key
-2. **Short-lived credentials** - Use time-limited tokens when possible
-3. **Minimal permissions** - Grant agents only the permissions they need
-4. **Audit regularly** - Monitor agent activity for anomalies
-5. **Rotate tokens** - Rotate agent credentials frequently
-
-## Troubleshooting
-
-### Agent Authentication Failed
-
-If the agent fails to authenticate:
-- Verify the agent token is correct
-- Check that the token hasn't expired
-- Ensure the agent is enabled
-
-### Signature Invalid
-
-If signatures are invalid:
-- Verify the signing key is configured correctly
-- Check the system clock
-- Ensure the agent has the latest version
-
-## Advanced Topics
-
-- [Custom Agents](/docs/concepts/delegation)
-- [Multi-step Workflows](/docs/reference/cli)
-- [Integration Testing](/docs/build-agents)
+1. **No secrets to leak** — CI signing uses ephemeral keys.
+2. **Always pin `auths-version`** — never resolve `latest` (supply-chain hardening).
+3. **Publish a trust root** (`.auths/roots`) so verifiers can anchor your signatures; `fail-on-unanchored` keeps you honest.
+4. **Least privilege** — give agents scoped, time-bounded delegation.
 
 ## Related
 
 - [Sign Commits](/docs/sign-commits)
-- [Team Identities](/docs/team-identities)
-- [CI/CD Integration](/docs/reference/github-actions)
+- [Prove Provenance](/docs/prove-provenance)
+- [GitHub Actions reference](/docs/reference/github-actions)
+- [MCP Setup](/docs/mcp-setup)

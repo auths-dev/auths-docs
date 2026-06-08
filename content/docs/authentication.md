@@ -1,24 +1,54 @@
 ---
 title: Authentication
-description: Authenticate your API requests with Auths API keys
+description: How Auths authenticates — cryptographic identities, not API keys
 ---
 
-## API Keys
+## No API keys
 
-The Auths API uses API keys to authenticate requests. You can view and manage your API keys in the Auths Dashboard.
+Auths does **not** use API keys, secret tokens, or a dashboard. There is no `sk_live_…` to leak. Instead, authentication is based on **cryptographic identities**: you hold a private signing key, and others verify your signatures against your public identity. This is the model Auths exists to replace shared secrets with.
 
-Test mode secret keys have the prefix `sk_test_` and live mode secret keys have the prefix `sk_live_`. Alternatively, you can use restricted API keys for granular permissions.
+## Your identity
+
+Running `auths init` creates a KERI identity — a `did:keri:…` backed by a key stored on your machine (under `~/.auths`, protected by a passphrase):
+
+```bash
+auths init
+auths whoami      # your identity (did:keri:…)
+auths status      # identity + signing overview
+```
+
+You **prove** your identity by signing (`auths sign`); others **authenticate** you by verifying (`auths verify`) against a trusted copy of your public identity — entirely offline, no server in the loop. See the [quickstart](/docs/quickstart).
+
+## Trust instead of accounts
+
+There's no central account to log into. Verifiers decide whom to trust by **pinning** identities:
+
+```bash
+auths trust add did:keri:E...     # trust an identity
+auths trust list
+```
+
+See [Team Identities](/docs/team-identities) for sharing trust across a team.
+
+## Authenticating agents and services
+
+For AI agents, CI, and services, Auths issues a **scoped passport** — a delegated, capability-scoped, expiring, revocable identity — instead of a bearer token. The agent presents it (for the MCP server, in the HTTP `Authorization` header) and the server authorizes the call by replaying the key event log:
+
+- **Scoped** — limited to specific capabilities (e.g. `sign_commit`).
+- **Expiring** — set a lifetime so a leaked credential dies on its own.
+- **Revocable** — revocation is a logged fact, effective immediately.
+
+See the [MCP setup guide](/docs/mcp-setup) and the [agent demo](https://github.com/auths-dev/auths-agent-demo).
 
 ## Security
 
-Your API keys carry many privileges, so be sure to keep them secure! Do not share your secret API keys in publicly accessible areas such as GitHub, client-side code, and so forth.
+- Keep your **private key** safe — it never leaves your machine and is passphrase-protected.
+- Share only your **public identity** (`did:keri:…`); it carries no secret.
+- Prefer **scoped, expiring** delegation for automation over reusing a human key.
 
-## Using Your API Key
+## Related
 
-Use your API key by assigning it to `Auths.apiKey`. The library will then automatically send this key in each request.
-
-You can also set a per-request key with an option. This is often useful for applications that use multiple API keys during the lifetime of a process.
-
-## HTTPS Required
-
-All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail.
+- [Quickstart](/docs/quickstart)
+- [Team Identities](/docs/team-identities)
+- [MCP Setup](/docs/mcp-setup)
+- [Identity Model](/docs/concepts/identity-model)

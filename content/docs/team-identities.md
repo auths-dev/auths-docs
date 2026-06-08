@@ -1,106 +1,79 @@
 ---
 title: Team Identities
-description: Manage multiple identities and signing keys for your team
+description: Share and trust identities across a team, and delegate to agents
 ---
 
 ## Overview
 
-Team identities allow you to manage multiple signing keys for different team members and purposes. This guide shows how to set up and manage identities.
+Each developer and machine has its own Auths identity (a `did:keri:…`). Working as a team means **establishing trust** between those identities and, where needed, **delegating** scoped authority to CI and agents. Auths has no central account system — trust is pinned locally and proven cryptographically.
 
-## Creating an Identity
+## Your identity
 
-Create a new identity for a team member:
-
-```bash
-auths identity create --name "alice" --email "alice@example.com"
-```
-
-This generates:
-- A public key
-- A private key (stored securely)
-- An identity configuration
-
-## Managing Team Keys
-
-### List all identities
+Every member creates their own identity once:
 
 ```bash
-auths identity list
+auths init
+auths whoami      # show your identity (did:keri:…)
+auths status      # identity + signing overview
 ```
 
-Output:
-```
-ID              Name    Email                 Created
-abc123          alice   alice@example.com     2024-01-15
-def456          bob     bob@example.com       2024-01-16
-```
+## Trusting teammates
 
-### Export a public key
+To verify a teammate's commits, pin their identity as a trusted root. Share the `did:keri:…` from `auths whoami`, then:
 
 ```bash
-auths identity export-public-key alice
+auths trust add did:keri:E...     # pin a teammate as trusted
+auths trust list                  # all pinned identities
+auths trust show did:keri:E...    # details
+auths trust remove did:keri:E...  # unpin
 ```
 
-### Add a team member's public key
+Once pinned, `auths verify` accepts that identity's signatures. Commit a checked-in trust root (e.g. under `.auths/`) so the whole team and CI share the same trusted set.
+
+## Identity bundles for CI
+
+For stateless verification in CI (no local identity store), export an identity bundle and hand it to the verify action:
 
 ```bash
-auths identity add-public-key alice alice-public.pem
+auths id export-bundle            # advanced command (auths --help-all)
 ```
 
-## Delegation
+Pass the result to `auths-dev/verify` via its `identity-bundle` input — see [Build Agents](/docs/build-agents).
 
-Grant other team members permission to sign on your behalf:
+## Delegating to agents
+
+Rather than share a human's key, delegate **scoped, expiring, revocable** authority to an agent or CI bot. This uses the same KERI delegation that powers agent passports:
 
 ```bash
-auths delegation create alice --delegate bob
+auths id agent add \
+  --label ci-bot \
+  --key my-key \
+  --scope sign_commit \
+  --expires-in 86400
 ```
 
-This allows Bob to sign commits on Alice's behalf with proper attribution.
+See the [MCP setup guide](/docs/mcp-setup) and the [agent demo](https://github.com/auths-dev/auths-agent-demo) for the full delegation, scoping, and revocation workflow.
 
-## Team Policies
+## Best practices
 
-### Require Code Review
+1. **One identity per person and per machine** — never share private keys.
+2. **Delegate, don't share** — give agents scoped, expiring credentials instead of a human key.
+3. **Check in your trust roots** so everyone (and CI) verifies against the same set.
+4. **Rotate regularly** — see [Key Rotation](/docs/concepts/key-rotation).
 
-Enforce that all commits must be reviewed before merging:
-
-```bash
-auths policy set code-review-required true
-```
-
-### Key Rotation Schedule
-
-Set a key rotation policy:
-
-```bash
-auths policy set key-rotation-days 90
-```
-
-## Best Practices
-
-1. **One key per person** - Each team member should have their own signing key
-2. **Regular rotation** - Rotate keys every 3-6 months
-3. **Secure storage** - Store private keys in a secure location
-4. **Share public keys** - Distribute public keys through your team's secure channels
-5. **Audit access** - Regularly review who has access to signing keys
+> **Note:** team-wide *policy enforcement* (mandatory review, rotation schedules) is not yet a CLI surface — see [Delegation](/docs/concepts/delegation) for the model.
 
 ## Troubleshooting
 
-### Identity Not Found
+### A teammate's commit won't verify
 
-If you get an "identity not found" error:
-- Verify the identity name is correct
-- List all identities with `auths identity list`
-- Check the configuration file
+- Confirm their identity is pinned: `auths trust list`
+- Confirm they signed the commit: `auths verify <commit>`
+- Run `auths doctor` to check your local setup
 
-### Key Mismatch
-
-If signing fails with a key mismatch:
-- Ensure you're using the correct identity
-- Verify the private key file exists
-- Check file permissions (should be 600)
-
-## Related Topics
+## Related topics
 
 - [Sign Commits](/docs/sign-commits)
+- [MCP Setup](/docs/mcp-setup)
 - [Delegation](/docs/concepts/delegation)
 - [Key Rotation](/docs/concepts/key-rotation)

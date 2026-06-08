@@ -1,94 +1,73 @@
 ---
 title: Prove Provenance
-description: Verify the authenticity and origin of code commits
+description: Verify the authenticity and origin of commits and build artifacts
 ---
 
-## What is Code Provenance?
+## What is code provenance?
 
-Code provenance is the complete chain of custody for your code. It proves:
-- **Who** wrote the code
-- **When** it was written
-- **Where** it came from
-- **Why** it was changed
+Code provenance is a verifiable chain of custody for your code — proof of **who** produced an artifact or commit, **when**, and that it **hasn't been altered** since. Auths proves this cryptographically and **offline**: verification is a local check against trusted identity roots, with no central authority to call.
 
-With Auths, you can cryptographically prove all of these facts.
+## Verify commits
 
-## Verifying a Commit
-
-To verify that a commit is authentic:
+Verify the latest commit, a specific commit, or a range:
 
 ```bash
-auths verify-commit <commit-hash>
+auths verify HEAD
+auths verify <commit-sha>
+auths verify HEAD~10..HEAD
 ```
 
-This will check:
-1. The signature is valid
-2. The signing key is trusted
-3. The commit hasn't been modified
+`auths verify` confirms each signature resolves to a trusted identity and that the commit is unmodified. To trust a signer first, pin them with `auths trust add did:keri:E...` (see [Sign Commits](/docs/sign-commits)).
 
-## Checking Commit History
+## Verify build artifacts
 
-Verify an entire branch:
+Signing an artifact produces a detached **attestation** file (`<file>.auths.json`) that travels alongside it. Verifying checks the artifact's bytes against that attestation:
 
 ```bash
-auths verify-branch main
+auths verify ./dist/app.tar.gz
 ```
 
-This checks all commits and reports:
-- Total commits
-- Signed vs. unsigned
-- Any invalid signatures
-- Key information
+Attestations are the same mechanism the [verify widget](https://github.com/auths-dev/auths) uses to render a "Verified" badge from a repository's published release assets.
 
-## Building a Proof
+## Enforce verification in CI
 
-Generate a proof document for a release:
-
-```bash
-auths prove --ref v1.0.0 --output proof.json
-```
-
-The proof includes:
-- Commit hash
-- Author identity
-- Timestamp
-- Signature
-- Chain of custody
-
-## Publishing Proof
-
-Share proof with stakeholders:
-
-```bash
-auths proof publish proof.json --to team
-```
-
-This allows others to independently verify the code's authenticity.
-
-## Verification in CI/CD
-
-Enforce signature verification in your pipeline:
+Use the **verify** GitHub Action to fail a pull request when commits (or artifacts) aren't properly signed. It uses ephemeral, KEL-native verification — no secrets to manage:
 
 ```yaml
-- name: Verify Commits
-  run: auths verify-branch --require-signed
+name: Verify provenance
+on: [pull_request]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: auths-dev/verify@v1
+        with:
+          auths-version: '0.0.1-rc.12'   # pin a version (the action never resolves "latest")
+          fail-on-unsigned: 'true'
+          post-pr-comment: 'true'
+        # github-token: ${{ secrets.GITHUB_TOKEN }}   # only needed for the PR comment
 ```
 
-This will fail the build if any unsigned commits are found.
+For stateless verification against a specific identity, pass an `identity-bundle` (generate one with the advanced command `auths id export-bundle`). The companion **sign** action (`auths-dev/sign@v1`) signs commits or artifacts in CI with ephemeral keys.
 
-## Best Practices
+> See the [GitHub Actions reference](/docs/reference/github-actions) for the full input list.
 
-1. **Sign all commits** - Make it mandatory
-2. **Verify before release** - Check all commits before deploying
-3. **Archive proofs** - Keep proof documents for compliance
-4. **Rotate keys** - Regularly update signing keys
-5. **Audit access** - Monitor who can sign commits
+## Best practices
 
-## Advanced Topics
+1. **Sign everything you release** — commits and artifacts.
+2. **Verify before you ship** — gate merges and releases on `auths-dev/verify`.
+3. **Pin the CLI version** in CI (`auths-version`) — never resolve `latest`.
+4. **Distribute trust roots** so verifiers can anchor your signatures (see [Team Identities](/docs/team-identities)).
+
+## Advanced topics
 
 - [Delegation](/docs/concepts/delegation)
 - [Key Rotation](/docs/concepts/key-rotation)
-- [Supply Chain Security](/docs/concepts/identity-model)
+- [Identity Model](/docs/concepts/identity-model)
 
 ## Related
 
