@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: anthropics/auths-action@v1
+      - uses: auths-dev/auths-action@v1
         with:
           agent-token: ${{ secrets.AUTHS_AGENT_TOKEN }}
           signing-key: main

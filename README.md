@@ -1,6 +1,6 @@
 # Auths Documentation Site
 
-A modern, Stripe-grade documentation site for [Auths](https://github.com/anthropics/auths) built with Next.js, Markdoc, and Tailwind CSS.
+A modern, Stripe-grade documentation site for [Auths](https://github.com/auths-dev/auths) built with Next.js, Markdoc, and Tailwind CSS.
 
 ## Features
 
@@ -287,7 +287,7 @@ bun run build
 
 ## Related
 
-- [Auths GitHub](https://github.com/anthropics/auths)
+- [Auths GitHub](https://github.com/auths-dev/auths)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Markdoc Documentation](https://markdoc.io)
 - [Tailwind CSS](https://tailwindcss.com)

@@ -9,7 +9,7 @@ export default function Home() {
             <span className="font-semibold text-gray-900 text-lg">Auths</span>
           </div>
           <a
-            href="https://github.com/anthropics/auths"
+            href="https://github.com/auths-dev/auths"
             className="text-sm text-gray-600 hover:text-gray-900 transition"
             target="_blank"
             rel="noopener noreferrer"
@@ -123,7 +123,7 @@ export default function Home() {
             </div>
             <div className="flex gap-8">
               <a
-                href="https://github.com/anthropics/auths"
+                href="https://github.com/auths-dev/auths"
                 className="text-sm text-gray-600 hover:text-gray-900 transition"
                 target="_blank"
                 rel="noopener noreferrer"

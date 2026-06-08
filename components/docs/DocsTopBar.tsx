@@ -36,7 +36,7 @@ export function DocsTopBar() {
         )}
 
         <a
-          href="https://github.com/anthropics/auths"
+          href="https://github.com/auths-dev/auths"
           className="text-sm text-gray-600 hover:text-gray-900 transition"
           target="_blank"
           rel="noopener noreferrer"

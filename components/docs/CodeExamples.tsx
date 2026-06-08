@@ -80,7 +80,7 @@ auths verify-commit abc1234`,
     {
       label: 'GitHub Actions',
       language: 'yaml',
-      code: `- uses: anthropics/auths-action@v1
+      code: `- uses: auths-dev/auths-action@v1
   with:
     agent-token: \${{ secrets.AUTHS_TOKEN }}`,
     },
@@ -113,7 +113,7 @@ auths verify-commit abc1234`,
     {
       label: 'Install via Homebrew',
       language: 'bash',
-      code: `brew install anthropic/auths/auths`,
+      code: `brew install auths-dev/auths-cli/auths`,
     },
     {
       label: 'Verify installation',
@@ -153,7 +153,7 @@ export function CodeExamples() {
 
       <div className="text-center pt-4">
         <a
-          href="https://github.com/anthropics/auths"
+          href="https://github.com/auths-dev/auths"
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs text-blue-600 hover:text-blue-700 font-medium"
