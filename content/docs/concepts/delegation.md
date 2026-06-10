@@ -3,8 +3,12 @@ title: Delegation
 description: Allow others to sign on your behalf
 ---
 
-## Coming Soon
+> 🚧 **Stub** — this page hasn't been written yet. The links below are the current sources of truth.
 
-This page is coming soon. We'll explain how delegation works and how to securely grant signing rights.
+Delegation in Auths uses KERI delegated identifiers: a root identity anchors a scoped, expiring, revocable identity for an agent or device — no key sharing.
 
-See [Team Identities](/docs/team-identities) for current delegation patterns.
+For what exists today:
+
+- [Team Identities](/docs/team-identities) — the `auths id agent add` delegation workflow
+- [Build Agents](/docs/build-agents) — delegating to CI and agents in practice
+- `auths id agent --help` — the full command surface

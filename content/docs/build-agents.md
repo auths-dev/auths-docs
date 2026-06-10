@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0
       - uses: auths-dev/verify@v1
         with:
-          auths-version: '0.0.1-rc.12'   # pin the CLI (the action never resolves "latest")
+          auths-version: '0.1.2'   # pin the CLI (the action never resolves "latest")
           fail-on-unsigned: 'true'
           post-pr-comment: 'true'
         # github-token: ${{ secrets.GITHUB_TOKEN }}   # only for the PR comment
@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: auths-dev/sign@v1
         with:
-          auths-version: '0.0.1-rc.12'
+          auths-version: '0.1.2'
           files: |
             dist/*.tar.gz
           fail-on-unanchored: 'true'
@@ -68,7 +68,7 @@ auths id export-bundle    # advanced (auths --help-all); commit to .auths/ci-bun
       - uses: auths-dev/verify@v1
         with:
           identity-bundle: .auths/ci-bundle.json
-          auths-version: '0.0.1-rc.12'
+          auths-version: '0.1.2'
 ```
 
 ## Scoped agent credentials

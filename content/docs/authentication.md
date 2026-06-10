@@ -9,7 +9,7 @@ Auths does **not** use API keys, secret tokens, or a dashboard. There is no `sk_
 
 ## Your identity
 
-Running `auths init` creates a KERI identity — a `did:keri:…` backed by a key stored on your machine (under `~/.auths`, protected by a passphrase):
+Running `auths init` creates a KERI identity (KERI: Key Event Receipt Infrastructure — identity as a verifiable log of key events rather than an account) — a `did:keri:…` backed by a key stored on your machine (under `~/.auths`, protected by a passphrase):
 
 ```bash
 auths init
@@ -24,7 +24,7 @@ You **prove** your identity by signing (`auths sign`); others **authenticate** y
 There's no central account to log into. Verifiers decide whom to trust by **pinning** identities:
 
 ```bash
-auths trust add did:keri:E...     # trust an identity
+auths trust pin --did did:keri:E... --key <pubkey-hex>   # trust an identity
 auths trust list
 ```
 
@@ -32,7 +32,7 @@ See [Team Identities](/docs/team-identities) for sharing trust across a team.
 
 ## Authenticating agents and services
 
-For AI agents, CI, and services, Auths issues a **scoped passport** — a delegated, capability-scoped, expiring, revocable identity — instead of a bearer token. The agent presents it (for the MCP server, in the HTTP `Authorization` header) and the server authorizes the call by replaying the key event log:
+For AI agents, CI, and services, Auths issues a **scoped passport** — a delegated, capability-scoped, expiring, revocable identity — instead of a bearer token. The agent presents it (for the MCP server, in the HTTP `Authorization` header) and the server authorizes the call by replaying the key event log (the KEL — the signed, append-only history of an identity's keys):
 
 - **Scoped** — limited to specific capabilities (e.g. `sign_commit`).
 - **Expiring** — set a lifetime so a leaked credential dies on its own.

@@ -3,8 +3,12 @@ title: Identity Model
 description: Understanding Auths' identity and signing model
 ---
 
-## Coming Soon
+> 🚧 **Stub** — this page hasn't been written yet. The links below are the current sources of truth.
 
-This page is coming soon. Check back soon for a deep dive into how Auths models identities and manages cryptographic keys.
+In short: your identity is a `did:keri:…` — a self-certifying identifier backed by a key event log (KEL), a signed, append-only history of your keys. Devices and agents get their own delegated identifiers anchored by your root. There is no account and no server; everything verifies locally from the log.
 
-In the meantime, see [Sign Commits](/docs/sign-commits) to get started.
+For what exists today:
+
+- [Quickstart](/docs/quickstart) — create an identity and see it in action
+- [Authentication](/docs/authentication) — how identities authenticate agents and services
+- [Sign Commits](/docs/sign-commits) — how identity binds to Git commits

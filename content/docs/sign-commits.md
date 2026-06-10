@@ -45,12 +45,12 @@ A successful verification confirms the signature resolves to a trusted identity 
 
 ## Trusting other signers
 
-Verification checks signatures against your **trusted identity roots**. Pin a teammate's identity so their commits verify on your machine:
+Verification checks signatures against your **trusted identity roots**. Pin a teammate's identity (they share their DID and public key, e.g. from `auths whoami` and `auths id show`) so their commits verify on your machine:
 
 ```bash
-auths trust add did:keri:E...     # pin an identity as trusted
-auths trust list                  # show pinned identities
-auths trust show did:keri:E...    # details for one identity
+auths trust pin --did did:keri:E... --key <pubkey-hex>   # pin an identity as trusted
+auths trust list                                         # show pinned identities
+auths trust show did:keri:E...                           # details for one identity
 ```
 
 See [Team Identities](/docs/team-identities) for sharing identities across a team.

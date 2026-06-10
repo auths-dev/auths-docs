@@ -31,7 +31,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="/docs/installation"
+                href="/docs/quickstart"
                 className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition"
               >
                 Get Started
@@ -131,17 +131,17 @@ export default function Home() {
                 GitHub
               </a>
               <a
-                href="https://anthropic.com"
+                href="https://auths.dev"
                 className="text-sm text-gray-600 hover:text-gray-900 transition"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Anthropic
+                auths.dev
               </a>
             </div>
           </div>
           <p className="text-sm text-gray-500 mt-8">
-            © 2024 Anthropic. Auths is open source and available on GitHub.
+            © 2026 auths-dev. Auths is open source and available on GitHub.
           </p>
         </div>
       </footer>

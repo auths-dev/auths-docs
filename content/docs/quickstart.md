@@ -32,10 +32,10 @@ You should see the installed version printed. (Other install methods — curl, b
 auths init
 ```
 
-This guided wizard generates your signing key, sets up Git signing, and stores everything under `~/.auths`. You'll be prompted for a passphrase. To skip the prompts, use a profile:
+This guided wizard generates your signing key, sets up Git signing, and stores everything under `~/.auths`. You'll be prompted for a passphrase. To skip the prompts entirely:
 
 ```bash
-auths init --profile developer
+auths init --non-interactive
 ```
 
 Check who you are:
@@ -44,7 +44,7 @@ Check who you are:
 auths whoami
 ```
 
-You should see your new identity (a `did:keri:…` identifier).
+You should see your new identity — a `did:keri:…` identifier: a decentralized ID backed by a *key event log* (KEL), a tamper-evident history of your keys. No account, no server.
 
 ## 3. Sign a commit
 
@@ -83,7 +83,7 @@ That's it — you've produced and verified offline provenance for a commit. 🎉
 
 ## See it in the browser (optional)
 
-Auths can render a **"Verified" badge** for a repository's releases using the embeddable [verify widget](https://github.com/auths-dev/auths). This is an optional next step — the badge resolves a published release attestation, so it lights up green once a repo publishes one. Your terminal `auths verify` above is the source of truth and works today with no extra setup.
+Auths can render a **"Verified" badge** for a repository's releases using the embeddable [verify widget](https://github.com/auths-dev/auths). This is an optional next step — the badge resolves a published release attestation (a signed statement binding an artifact to an identity), so it lights up green once a repo publishes one. Your terminal `auths verify` above is the source of truth and works today with no extra setup.
 
 ## Next steps
 

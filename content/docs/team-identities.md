@@ -19,13 +19,13 @@ auths status      # identity + signing overview
 
 ## Trusting teammates
 
-To verify a teammate's commits, pin their identity as a trusted root. Share the `did:keri:…` from `auths whoami`, then:
+To verify a teammate's commits, pin their identity as a trusted root. They share their `did:keri:…` (from `auths whoami`) and their public key (from `auths id show`), then:
 
 ```bash
-auths trust add did:keri:E...     # pin a teammate as trusted
-auths trust list                  # all pinned identities
-auths trust show did:keri:E...    # details
-auths trust remove did:keri:E...  # unpin
+auths trust pin --did did:keri:E... --key <pubkey-hex>   # pin a teammate as trusted
+auths trust list                                         # all pinned identities
+auths trust show did:keri:E...                           # details
+auths trust remove did:keri:E...                         # unpin
 ```
 
 Once pinned, `auths verify` accepts that identity's signatures. Commit a checked-in trust root (e.g. under `.auths/`) so the whole team and CI share the same trusted set.

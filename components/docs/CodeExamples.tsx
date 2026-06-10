@@ -9,117 +9,104 @@ interface CodeExample {
 }
 
 const codeExamples: Record<string, CodeExample[]> = {
-  '/docs/authentication': [
-    {
-      label: 'Global API Key',
-      language: 'java',
-      code: `Auths.apiKey = "sk_test_51TGscvIB1g0UUU6yd3n3ez2V68sHLZIpPA56a3CkogTn4F5naM6WXjguK478dEGN5y79mJxFkqDQCgNDMJlqvH0Q00yUobFuRC";`,
-    },
-    {
-      label: 'Per-Request API Key',
-      language: 'java',
-      code: `RequestOptions requestOptions = RequestOptions.builder()
-  .setApiKey("sk_test_51TGscvIB1g0UUU6yd3n3ez2V68sHLZIpPA56a3CkogTn4F5naM6WXjguK478dEGN5y79mJxFkqDQCgNDMJlqvH0Q00yUobFuRC")
-  .build();
-Charge charge = Charge.retrieve(
-  "ch_3Ln3ga2eZvKYlo2C11iwHdxy",
-  requestOptions,
-);`,
-    },
-  ],
   '/docs/sign-commits': [
     {
-      label: 'Sign a commit',
+      label: 'Sign a commit (automatic after init)',
       language: 'bash',
-      code: `auths sign-commit -m "Add new feature"`,
+      code: `git commit -m "Add new feature"`,
     },
     {
-      label: 'Verify a commit',
+      label: 'Verify the latest commit',
       language: 'bash',
-      code: `auths verify-commit <commit-hash>`,
+      code: `auths verify HEAD`,
     },
     {
-      label: 'Check signature',
+      label: 'Verify any commit or range',
       language: 'bash',
-      code: `git log --oneline -1
-auths verify-commit abc1234`,
+      code: `auths verify abc1234
+auths verify main..HEAD`,
     },
   ],
   '/docs/team-identities': [
     {
-      label: 'Create identity',
+      label: 'Share your identity',
       language: 'bash',
-      code: `auths identity create \\
-  --name "alice" \\
-  --email "alice@example.com"`,
+      code: `auths whoami`,
     },
     {
-      label: 'List identities',
+      label: 'Pin a teammate',
       language: 'bash',
-      code: `auths identity list`,
+      code: `auths trust pin \\
+  --did did:keri:E... \\
+  --key <pubkey-hex>`,
     },
     {
-      label: 'Export public key',
+      label: 'Export a CI bundle',
       language: 'bash',
-      code: `auths identity export-public-key alice`,
+      code: `auths id export-bundle --alias main \\
+  --output .auths/ci-bundle.json \\
+  --max-age-secs 31536000`,
     },
   ],
   '/docs/build-agents': [
     {
-      label: 'Create agent',
+      label: 'Delegate an agent',
       language: 'bash',
-      code: `auths agent create \\
-  --name "ci-bot" \\
-  --type github-actions`,
+      code: `auths id agent add \\
+  --label ci-bot --key main \\
+  --scope sign_commit`,
     },
     {
-      label: 'Get token',
-      language: 'bash',
-      code: `auths agent get-token ci-bot`,
-    },
-    {
-      label: 'GitHub Actions',
+      label: 'Sign in CI',
       language: 'yaml',
-      code: `- uses: auths-dev/auths-action@v1
+      code: `- uses: auths-dev/sign@v1
   with:
-    agent-token: \${{ secrets.AUTHS_TOKEN }}`,
+    files: 'dist/*'
+    auths-version: '0.1.2'`,
+    },
+    {
+      label: 'Verify in CI',
+      language: 'yaml',
+      code: `- uses: auths-dev/verify@v1
+  with:
+    auths-version: '0.1.2'
+    identity-bundle: .auths/ci-bundle.json`,
     },
   ],
   '/docs/prove-provenance': [
     {
-      label: 'Verify branch',
+      label: 'Verify a commit range',
       language: 'bash',
-      code: `auths verify-branch main`,
+      code: `auths verify main..HEAD`,
     },
     {
-      label: 'Generate proof',
+      label: 'Sign an artifact',
       language: 'bash',
-      code: `auths prove --ref v1.0.0 \\
-  --output proof.json`,
+      code: `auths artifact sign release.tar.gz`,
     },
     {
-      label: 'Check commit',
+      label: 'Stateless verification (CI)',
       language: 'bash',
-      code: `auths verify-commit abc1234 \\
-  --require-signed`,
+      code: `auths verify HEAD \\
+  --identity-bundle .auths/ci-bundle.json`,
     },
   ],
   '/docs/installation': [
-    {
-      label: 'Install via Cargo',
-      language: 'bash',
-      code: `cargo install auths`,
-    },
     {
       label: 'Install via Homebrew',
       language: 'bash',
       code: `brew install auths-dev/auths-cli/auths`,
     },
     {
+      label: 'Install via Cargo',
+      language: 'bash',
+      code: `cargo install auths-cli`,
+    },
+    {
       label: 'Verify installation',
       language: 'bash',
       code: `auths --version
-auths health`,
+auths doctor`,
     },
   ],
 }

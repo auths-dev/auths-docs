@@ -17,7 +17,7 @@ auths verify <commit-sha>
 auths verify HEAD~10..HEAD
 ```
 
-`auths verify` confirms each signature resolves to a trusted identity and that the commit is unmodified. To trust a signer first, pin them with `auths trust add did:keri:E...` (see [Sign Commits](/docs/sign-commits)).
+`auths verify` confirms each signature resolves to a trusted identity and that the commit is unmodified. To trust a signer first, pin them with `auths trust pin --did did:keri:E... --key <pubkey-hex>` (see [Sign Commits](/docs/sign-commits)).
 
 ## Verify build artifacts
 
@@ -46,7 +46,7 @@ jobs:
           fetch-depth: 0
       - uses: auths-dev/verify@v1
         with:
-          auths-version: '0.0.1-rc.12'   # pin a version (the action never resolves "latest")
+          auths-version: '0.1.2'   # pin a version (the action never resolves "latest")
           fail-on-unsigned: 'true'
           post-pr-comment: 'true'
         # github-token: ${{ secrets.GITHUB_TOKEN }}   # only needed for the PR comment
