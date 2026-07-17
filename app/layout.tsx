@@ -11,11 +11,14 @@ export const metadata: Metadata = {
   icons: { icon: SEAL_FAVICON },
 }
 
-/** Applies the stored (or system) theme before paint — no flash. */
+/**
+ * Applies the stored theme before paint — no flash. Defaults to light: dark is
+ * used only when the visitor has explicitly toggled it (system preference is
+ * not followed, so a dark-mode OS still lands on the light site by default).
+ */
 const THEME_SCRIPT = `
 try {
-  var t = localStorage.getItem('auths.docs.theme');
-  if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  if (localStorage.getItem('auths.docs.theme') === 'dark') {
     document.documentElement.classList.add('dark');
   }
 } catch (e) {}
