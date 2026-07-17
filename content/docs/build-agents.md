@@ -1,6 +1,10 @@
 ---
 title: Build Agents
 description: Sign and verify in CI/CD with the Auths GitHub Actions — no secrets
+product: identity
+section: Guides
+order: 6
+lastReviewed: "2026-07-17"
 ---
 
 ## Overview

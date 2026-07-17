@@ -1,39 +1,31 @@
 import { DocsTopBar } from '@/components/docs/DocsTopBar'
 import { DocsSidebar } from '@/components/docs/DocsSidebar'
-import { CodeExamples } from '@/components/docs/CodeExamples'
 import { DocsMobileDrawer } from '@/components/docs/DocsMobileDrawer'
+import { OnThisPage } from '@/components/docs/OnThisPage'
+import { LanguageProvider } from '@/components/markdoc/language-context'
+import { getNavigation } from '@/lib/content'
 
-export default function DocsLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function DocsLayout({ children }: { children: React.ReactNode }) {
+  const nav = getNavigation()
+
   return (
-    <>
+    <LanguageProvider>
       <DocsTopBar />
-      <div className="flex-1">
-        <div className="mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_320px] gap-0 lg:gap-8">
-            {/* Left Sidebar */}
-            <aside className="hidden lg:block sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto px-6 py-8 border-r border-gray-200 bg-gray-50">
-              <DocsSidebar />
-            </aside>
+      <div className="mx-auto max-w-[88rem]">
+        <div className="grid grid-cols-1 gap-0 lg:grid-cols-[270px_minmax(0,1fr)_260px] lg:gap-10">
+          <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] overflow-y-auto border-r border-rule bg-paper-deep/40 px-5 py-8 lg:block">
+            <DocsSidebar nav={nav} />
+          </aside>
 
-            {/* Main Content */}
-            <main className="min-w-0 px-6 sm:px-8 lg:px-0 py-8 max-w-2xl">
-              {children}
-            </main>
+          <main className="min-w-0 max-w-[72ch] px-6 py-10 sm:px-8 lg:px-0">{children}</main>
 
-            {/* Right Sidebar (Code Examples) */}
-            <aside className="hidden lg:block sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto px-6 py-8 bg-white">
-              <CodeExamples />
-            </aside>
-          </div>
+          <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-10 lg:block">
+            <OnThisPage />
+          </aside>
         </div>
       </div>
 
-      {/* Mobile drawer */}
-      <DocsMobileDrawer />
-    </>
+      <DocsMobileDrawer nav={nav} />
+    </LanguageProvider>
   )
 }

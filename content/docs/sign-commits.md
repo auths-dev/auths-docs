@@ -1,6 +1,10 @@
 ---
 title: Sign Commits
 description: Cryptographically sign and verify your Git commits with Auths
+product: identity
+section: Guides
+order: 4
+lastReviewed: "2026-07-17"
 ---
 
 Signing a commit proves that **you** authored it — provably, offline, with no central server or API key. This guide assumes you've already installed Auths and run `auths init` (see the [quickstart](/docs/quickstart)).

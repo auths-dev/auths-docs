@@ -1,6 +1,11 @@
 ---
 title: Quickstart
 description: Install Auths, create an identity, and verify your first signed commit in five minutes
+product: identity
+section: Guides
+order: 1
+lastReviewed: "2026-07-17"
+badge: new
 ---
 
 Go from zero to a **verified, signed commit** in about five minutes — entirely offline, no account or server required.

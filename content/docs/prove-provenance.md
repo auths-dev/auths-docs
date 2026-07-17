@@ -1,6 +1,10 @@
 ---
 title: Prove Provenance
 description: Verify the authenticity and origin of commits and build artifacts
+product: identity
+section: Guides
+order: 7
+lastReviewed: "2026-07-17"
 ---
 
 ## What is code provenance?

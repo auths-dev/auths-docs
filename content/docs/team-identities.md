@@ -1,6 +1,10 @@
 ---
 title: Team Identities
 description: Share and trust identities across a team, and delegate to agents
+product: identity
+section: Guides
+order: 5
+lastReviewed: "2026-07-17"
 ---
 
 ## Overview

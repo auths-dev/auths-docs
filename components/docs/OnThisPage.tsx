@@ -111,8 +111,8 @@ export function OnThisPage() {
               href={`#${item.id}`}
               className={`block py-1 transition ${
                 activeId === item.id
-                  ? 'text-blue-600 font-medium'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'text-seal font-medium'
+                  : 'text-ink-faint hover:text-ink'
               }`}
             >
               {item.text}

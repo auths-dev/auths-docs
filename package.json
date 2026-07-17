@@ -13,6 +13,7 @@
     "@markdoc/markdoc": "^0.5.7",
     "github-slugger": "^2.0.0",
     "js-yaml": "^4.1.1",
+    "lucide-react": "^1.25.0",
     "next": "latest",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.0.0",

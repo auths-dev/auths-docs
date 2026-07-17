@@ -1,6 +1,11 @@
 ---
 title: Delegation
 description: Allow others to sign on your behalf
+product: identity
+section: Concepts
+order: 3
+lastReviewed: "2026-07-17"
+badge: soon
 ---
 
 > 🚧 **Stub** — this page hasn't been written yet. The links below are the current sources of truth.

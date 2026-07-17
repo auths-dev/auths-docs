@@ -1,78 +1,52 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { Menu, X } from 'lucide-react'
 import { DocsSidebar } from './DocsSidebar'
+import type { ProductNav } from '@/lib/content'
 
-export function DocsMobileDrawer() {
+export function DocsMobileDrawer({ nav }: { nav: ProductNav[] }) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
-  // Close drawer when pathname changes
   useEffect(() => {
     setIsOpen(false)
   }, [pathname])
 
   return (
     <>
-      {/* Hamburger button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed bottom-6 right-6 z-30 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition shadow-lg"
+        className="fixed bottom-6 right-6 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-seal text-paper shadow-lg transition-colors hover:bg-seal-deep lg:hidden"
         aria-label="Open menu"
       >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
+        <Menu size={20} />
       </button>
 
-      {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Drawer */}
       <div
-        className={`fixed top-0 left-0 bottom-0 w-64 bg-white z-50 transform transition lg:hidden ${
+        className={`fixed bottom-0 left-0 top-0 z-50 w-72 transform bg-paper transition lg:hidden ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="h-14 border-b border-gray-200 flex items-center px-4">
+        <div className="flex h-14 items-center border-b border-rule px-4">
           <button
             onClick={() => setIsOpen(false)}
-            className="ml-auto text-gray-500 hover:text-gray-900"
+            className="ml-auto text-ink-faint hover:text-ink"
             aria-label="Close menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <X size={20} />
           </button>
         </div>
-        <div className="overflow-y-auto h-[calc(100vh-3.5rem)] p-4">
-          <DocsSidebar />
+        <div className="h-[calc(100vh-3.5rem)] overflow-y-auto p-4">
+          <DocsSidebar nav={nav} />
         </div>
       </div>
     </>

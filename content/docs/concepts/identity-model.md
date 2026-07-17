@@ -1,6 +1,11 @@
 ---
 title: Identity Model
 description: Understanding Auths' identity and signing model
+product: identity
+section: Concepts
+order: 1
+lastReviewed: "2026-07-17"
+badge: soon
 ---
 
 > 🚧 **Stub** — this page hasn't been written yet. The links below are the current sources of truth.

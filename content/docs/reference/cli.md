@@ -1,6 +1,11 @@
 ---
 title: CLI Reference
 description: Complete reference for Auths CLI commands
+product: identity
+section: Reference
+order: 1
+lastReviewed: "2026-07-17"
+badge: soon
 ---
 
 > 🚧 **Stub** — a full per-command reference hasn't been published here yet. The CLI's own help is the source of truth:

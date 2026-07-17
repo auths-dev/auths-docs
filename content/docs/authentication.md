@@ -1,6 +1,10 @@
 ---
 title: Authentication
 description: How Auths authenticates — cryptographic identities, not API keys
+product: identity
+section: Guides
+order: 3
+lastReviewed: "2026-07-17"
 ---
 
 ## No API keys
