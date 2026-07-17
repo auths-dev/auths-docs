@@ -1,6 +1,10 @@
 ---
 title: Build Agents
 description: Sign and verify in CI/CD with the Auths GitHub Actions — no secrets
+product: identity
+section: Guides
+order: 6
+lastReviewed: "2026-07-17"
 ---
 
 ## Overview
@@ -58,7 +62,7 @@ The sign action emits `signed-files`, `attestation-files` (the `.auths.json` sid
 
 ## Stateless verification with an identity bundle
 
-By default the verify action uses KEL-native verification. For stateless verification against a specific identity, export a bundle and pass it in:
+By default the verify action verifies against each signer's key event log (KEL). For stateless verification against a specific identity, export a bundle and pass it in:
 
 ```bash
 auths id export-bundle    # advanced (auths --help-all); commit to .auths/ci-bundle.json
@@ -73,7 +77,7 @@ auths id export-bundle    # advanced (auths --help-all); commit to .auths/ci-bun
 
 ## Scoped agent credentials
 
-For an autonomous agent (not a CI step) that needs to act on its own, delegate a **scoped, expiring** passport rather than reuse a human key — see the [MCP setup guide](/docs/mcp-setup) and the [agent demo](https://github.com/auths-dev/auths-agent-demo).
+For an autonomous agent (not a CI step) that needs to act on its own, delegate a **scoped, expiring** passport rather than reuse a human key — see the [bounded-agent gateway](/docs/mcp).
 
 ## Security considerations
 
@@ -87,4 +91,4 @@ For an autonomous agent (not a CI step) that needs to act on its own, delegate a
 - [Sign Commits](/docs/sign-commits)
 - [Prove Provenance](/docs/prove-provenance)
 - [GitHub Actions reference](/docs/reference/github-actions)
-- [MCP Setup](/docs/mcp-setup)
+- [The bounded agent](/docs/mcp)

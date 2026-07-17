@@ -1,44 +1,90 @@
 'use client'
 
+import { useState } from 'react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { docsNavigation, isPlaceholder } from '@/lib/docs-navigation'
+import type { ProductNav } from '@/lib/content'
 
-export function DocsSidebar() {
+/**
+ * Frontmatter-derived nav with the product switch on top: auths-mcp and
+ * Identity & signing are separate worlds that never intermix.
+ */
+
+function productForPath(nav: ProductNav[], pathname: string): ProductNav['product'] {
+  for (const p of nav) {
+    if (p.sections.some((s) => s.items.some((i) => i.href === pathname))) return p.product
+  }
+  return 'mcp'
+}
+
+export function DocsSidebar({ nav }: { nav: ProductNav[] }) {
   const pathname = usePathname()
+  const currentProduct = productForPath(nav, pathname)
+  const [product, setProduct] = useState<ProductNav['product']>(currentProduct)
+  const active = nav.find((p) => p.product === product) ?? nav[0]
 
   return (
     <nav className="space-y-8">
-      {docsNavigation.map((section) => (
+      <div
+        role="tablist"
+        aria-label="Product"
+        className="flex rounded-lg border border-rule bg-paper p-1"
+      >
+        {nav.map((p) => (
+          <button
+            key={p.product}
+            role="tab"
+            type="button"
+            aria-selected={p.product === product}
+            onClick={() => setProduct(p.product)}
+            className={`flex-1 rounded-md px-2 py-1.5 font-mono text-[12px] transition-colors ${
+              p.product === product
+                ? 'bg-paper-deep font-semibold text-ink'
+                : 'text-ink-faint hover:text-ink'
+            }`}
+          >
+            {p.label}
+          </button>
+        ))}
+      </div>
+
+      {active.sections.map((section) => (
         <div key={section.title}>
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4 px-2">
+          <h3 className="mb-3 px-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-ink-faint">
             {section.title}
           </h3>
-          <ul className="space-y-1">
+          <ul className="space-y-0.5">
             {section.items.map((item) => {
               const isActive = pathname === item.href
-              const isPlaceholderItem = isPlaceholder(item)
-
-              return (
-                <li key={item.href}>
-                  {isPlaceholderItem ? (
-                    <div className="flex items-center justify-between px-3 py-2 text-sm text-gray-400 cursor-not-allowed">
+              if (item.badge === 'soon') {
+                return (
+                  <li key={item.href}>
+                    <div className="flex cursor-default items-center justify-between px-3 py-1.5 text-sm text-ink-faint/70">
                       <span>{item.label}</span>
-                      <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-xs">
+                      <span className="rounded-sm border border-rule px-1.5 py-0.5 font-mono text-[10px] text-ink-faint">
                         soon
                       </span>
                     </div>
-                  ) : (
-                    <a
-                      href={item.href}
-                      className={`block px-3 py-2 text-sm rounded transition ${
-                        isActive
-                          ? 'bg-blue-50 text-blue-900 font-semibold border-l-2 border-blue-600'
-                          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
-                      }`}
-                    >
-                      {item.label}
-                    </a>
-                  )}
+                  </li>
+                )
+              }
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center justify-between border-l-2 px-3 py-1.5 text-sm transition-colors ${
+                      isActive
+                        ? 'border-seal font-semibold text-ink'
+                        : 'border-transparent text-ink-soft hover:border-rule hover:text-ink'
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {item.badge === 'new' ? (
+                      <span className="rounded-sm bg-seal/10 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-seal">
+                        new
+                      </span>
+                    ) : null}
+                  </Link>
                 </li>
               )
             })}

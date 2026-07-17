@@ -1,11 +1,15 @@
 ---
 title: Team Identities
 description: Share and trust identities across a team, and delegate to agents
+product: identity
+section: Guides
+order: 5
+lastReviewed: "2026-07-17"
 ---
 
 ## Overview
 
-Each developer and machine has its own Auths identity (a `did:keri:…`). Working as a team means **establishing trust** between those identities and, where needed, **delegating** scoped authority to CI and agents. Auths has no central account system — trust is pinned locally and proven cryptographically.
+Each developer and machine has its own Auths identity. Working as a team means **establishing trust** between those identities and, where needed, **delegating** scoped authority to CI and agents. Auths has no central account system — trust is pinned locally and proven cryptographically.
 
 ## Your identity
 
@@ -13,19 +17,19 @@ Every member creates their own identity once:
 
 ```bash
 auths init
-auths whoami      # show your identity (did:keri:…)
+auths whoami      # show your identity
 auths status      # identity + signing overview
 ```
 
 ## Trusting teammates
 
-To verify a teammate's commits, pin their identity as a trusted root. They share their `did:keri:…` (from `auths whoami`) and their public key (from `auths id show`), then:
+To verify a teammate's commits, pin their identity as a trusted root. They share their DID (from `auths whoami`) and their public key (from `auths id show`), then:
 
 ```bash
-auths trust pin --did did:keri:E... --key <pubkey-hex>   # pin a teammate as trusted
-auths trust list                                         # all pinned identities
-auths trust show did:keri:E...                           # details
-auths trust remove did:keri:E...                         # unpin
+auths trust pin --did <their-identity> --key <pubkey-hex>   # pin a teammate as trusted
+auths trust list                                            # all pinned identities
+auths trust show <their-identity>                           # details
+auths trust remove <their-identity>                         # unpin
 ```
 
 Once pinned, `auths verify` accepts that identity's signatures. Commit a checked-in trust root (e.g. under `.auths/`) so the whole team and CI share the same trusted set.
@@ -42,7 +46,7 @@ Pass the result to `auths-dev/verify` via its `identity-bundle` input — see [B
 
 ## Delegating to agents
 
-Rather than share a human's key, delegate **scoped, expiring, revocable** authority to an agent or CI bot. This uses the same KERI delegation that powers agent passports:
+Rather than share a human's key, delegate **scoped, expiring, revocable** authority to an agent or CI bot. This uses the same delegation mechanism that powers agent passports:
 
 ```bash
 auths id agent add \
@@ -52,7 +56,7 @@ auths id agent add \
   --expires-in 86400
 ```
 
-See the [MCP setup guide](/docs/mcp-setup) and the [agent demo](https://github.com/auths-dev/auths-agent-demo) for the full delegation, scoping, and revocation workflow.
+See the [bounded-agent gateway](/docs/mcp) for the full delegation, scoping, and revocation workflow.
 
 ## Best practices
 
@@ -74,6 +78,6 @@ See the [MCP setup guide](/docs/mcp-setup) and the [agent demo](https://github.c
 ## Related topics
 
 - [Sign Commits](/docs/sign-commits)
-- [MCP Setup](/docs/mcp-setup)
+- [The bounded agent](/docs/mcp)
 - [Delegation](/docs/concepts/delegation)
 - [Key Rotation](/docs/concepts/key-rotation)

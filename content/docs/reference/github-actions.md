@@ -1,6 +1,11 @@
 ---
 title: GitHub Actions
 description: Integrate Auths with GitHub Actions
+product: identity
+section: Reference
+order: 2
+lastReviewed: "2026-07-17"
+badge: soon
 ---
 
 > 🚧 **Stub** — a full input/output reference hasn't been written yet. The action repos below are the current sources of truth.

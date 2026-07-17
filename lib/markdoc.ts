@@ -1,6 +1,7 @@
-import Markdoc, { RenderableTreeNode } from '@markdoc/markdoc'
+import Markdoc, { type RenderableTreeNode } from '@markdoc/markdoc'
 import * as yaml from 'js-yaml'
 import GithubSlugger from 'github-slugger'
+import { buildConfig } from '@/markdoc/schema'
 
 export interface TocItem {
   id: string
@@ -8,65 +9,45 @@ export interface TocItem {
   level: 2 | 3
 }
 
-export interface DocFrontmatter {
-  title?: string
-  description?: string
-  [key: string]: unknown
-}
-
 export interface ParsedDoc {
   content: RenderableTreeNode
-  frontmatter: DocFrontmatter
+  frontmatter: Record<string, unknown>
   toc: TocItem[]
 }
 
-const config = {}
-
 /**
- * Add IDs to headings in HTML
- * @param html - Raw HTML string from Markdoc renderer
- * @returns HTML with IDs added to h2 and h3 tags
+ * Parses a Markdoc source string into a renderable tree (for
+ * `Markdoc.renderers.react`), frontmatter, and TOC. Validation errors throw
+ * at build time — an unknown tag never silently renders as nothing.
  */
-function addHeadingIds(html: string): string {
-  const slugger = new GithubSlugger()
-  return html.replace(/<(h[2-3])([^>]*)>/g, (match, tag, attrs) => {
-    // Extract text content from the next closing tag
-    const closeTag = `</${tag}>`
-    const closeIndex = html.indexOf(closeTag, html.indexOf(match) + match.length)
-    const content = html.substring(html.indexOf(match) + match.length, closeIndex)
-    const text = content.replace(/<[^>]*>/g, '') // Strip any nested tags
-    const id = slugger.slug(text)
-
-    // Check if id attr already exists
-    if (attrs.includes('id=')) {
-      return match
-    }
-
-    return `<${tag}${attrs} id="${id}">`
-  })
-}
-
-/**
- * Parses a Markdoc source string into HTML, frontmatter, and TOC.
- * @param source - Raw markdown string from the .md file
- * @returns { html, frontmatter, toc }
- */
-export function parseDoc(
-  source: string
-): { html: string; frontmatter: DocFrontmatter; toc: TocItem[] } {
+export function parseDoc(source: string): ParsedDoc {
   const ast = Markdoc.parse(source)
-  const frontmatter: DocFrontmatter = ast.attributes.frontmatter
-    ? (yaml.load(ast.attributes.frontmatter) as DocFrontmatter)
+  const frontmatter = ast.attributes.frontmatter
+    ? (yaml.load(ast.attributes.frontmatter) as Record<string, unknown>)
     : {}
 
-  // Extract TOC from AST
+  const config = buildConfig()
+
+  const errors = Markdoc.validate(ast, config).filter((e) => e.error.level === 'critical')
+  if (errors.length > 0) {
+    const detail = errors
+      .map((e) => `${e.error.id ?? 'error'} at line ${e.lines?.[0] ?? '?'}: ${e.error.message}`)
+      .join('\n  ')
+    throw new Error(`Markdoc validation failed:\n  ${detail}`)
+  }
+
+  // TOC from the AST with its own slugger — same algorithm as the heading
+  // node transform, so ids always match.
   const slugger = new GithubSlugger()
   const toc: TocItem[] = ast.children
     .filter((node) => node.type === 'heading' && [2, 3].includes(node.attributes.level))
     .map((node) => {
-      const text = node.children
-        .map((c: any) => (typeof c === 'string' ? c : c.attributes?.content ?? ''))
-        .join('')
+      let text = ''
+      for (const child of node.walk()) {
+        if (child.type === 'text' || child.type === 'code') {
+          text += String(child.attributes.content ?? '')
+        }
+      }
       return {
         id: slugger.slug(text),
         text,
@@ -75,8 +56,6 @@ export function parseDoc(
     })
 
   const content = Markdoc.transform(ast, config)
-  let html = Markdoc.renderers.html(content) || ''
-  html = addHeadingIds(html)
 
-  return { html, frontmatter, toc }
+  return { content, frontmatter, toc }
 }

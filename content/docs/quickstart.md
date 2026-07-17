@@ -1,6 +1,11 @@
 ---
 title: Quickstart
 description: Install Auths, create an identity, and verify your first signed commit in five minutes
+product: identity
+section: Guides
+order: 1
+lastReviewed: "2026-07-17"
+badge: new
 ---
 
 Go from zero to a **verified, signed commit** in about five minutes — entirely offline, no account or server required.
@@ -44,7 +49,7 @@ Check who you are:
 auths whoami
 ```
 
-You should see your new identity — a `did:keri:…` identifier: a decentralized ID backed by a *key event log* (KEL), a tamper-evident history of your keys. No account, no server.
+You should see your new identity — a self-certifying identifier backed by a *key event log* (KEL), a tamper-evident history of your keys that travels with you. No account, no server.
 
 ## 3. Sign a commit
 
@@ -73,7 +78,7 @@ A successful verification is the **payoff** — it confirms the commit's signatu
 
 ```text
 ✔ Verified: HEAD
-  Signer: did:keri:…
+  Signer: <root>
   Signature valid.
 ```
 
@@ -87,7 +92,6 @@ Auths can render a **"Verified" badge** for a repository's releases using the em
 
 ## Next steps
 
-- **[Give an AI agent a scoped passport](/docs/mcp-setup)** — set up Auths for a Claude or Cursor MCP agent.
-- **[Agent hello-world (`auths-agent-demo`)](https://github.com/auths-dev/auths-agent-demo)** — the canonical agent/SDK demo: an operator delegates scoped, time-bounded authority to AI agents, and a server verifies it (Python SDK; install from source with `pip install -e .`).
+- **[Bound an AI agent](/docs/mcp)** — put a Claude or Cursor MCP agent behind a scope, a budget, and an expiry.
 - **[Sign commits in depth](/docs/sign-commits)** — signing ranges, CI, and team workflows.
 - **[Concepts](/docs/concepts/identity-model)** — how identities, keys, and verification work under the hood.

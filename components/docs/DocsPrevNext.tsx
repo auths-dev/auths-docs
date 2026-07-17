@@ -1,38 +1,33 @@
-'use client'
+import Link from 'next/link'
+import type { NavItem } from '@/lib/content'
 
-import { usePathname } from 'next/navigation'
-import { getPrevNext } from '@/lib/docs-navigation'
-
-export function DocsPrevNext() {
-  const pathname = usePathname()
-  const { prev, next } = getPrevNext(pathname)
-
+export function DocsPrevNext({ prev, next }: { prev: NavItem | null; next: NavItem | null }) {
+  if (!prev && !next) return null
   return (
-    <div className="border-t border-gray-200 mt-12 pt-8 grid grid-cols-2 gap-4">
+    <div className="mt-14 grid grid-cols-2 gap-4 border-t border-rule pt-8">
       {prev ? (
-        <a
+        <Link
           href={prev.href}
-          className="group flex flex-col gap-2 p-4 border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition"
+          className="group flex flex-col gap-1.5 rounded-lg border border-rule p-4 transition-colors hover:border-seal/50"
         >
-          <span className="text-xs text-gray-500 group-hover:text-gray-700">← Previous</span>
-          <span className="font-semibold text-gray-900 group-hover:text-blue-600 transition">
+          <span className="font-mono text-[11px] text-ink-faint">← Previous</span>
+          <span className="font-semibold text-ink transition-colors group-hover:text-seal-deep">
             {prev.label}
           </span>
-        </a>
+        </Link>
       ) : (
         <div />
       )}
-
       {next ? (
-        <a
+        <Link
           href={next.href}
-          className="group flex flex-col gap-2 p-4 border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition text-right"
+          className="group flex flex-col gap-1.5 rounded-lg border border-rule p-4 text-right transition-colors hover:border-seal/50"
         >
-          <span className="text-xs text-gray-500 group-hover:text-gray-700">Next →</span>
-          <span className="font-semibold text-gray-900 group-hover:text-blue-600 transition">
+          <span className="font-mono text-[11px] text-ink-faint">Next →</span>
+          <span className="font-semibold text-ink transition-colors group-hover:text-seal-deep">
             {next.label}
           </span>
-        </a>
+        </Link>
       ) : (
         <div />
       )}

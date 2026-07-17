@@ -1,6 +1,10 @@
 ---
 title: Installation
 description: Get the Auths CLI up and running
+product: identity
+section: Guides
+order: 2
+lastReviewed: "2026-07-17"
 ---
 
 ## System Requirements

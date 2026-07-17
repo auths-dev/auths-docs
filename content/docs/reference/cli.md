@@ -1,6 +1,11 @@
 ---
 title: CLI Reference
 description: Complete reference for Auths CLI commands
+product: identity
+section: Reference
+order: 1
+lastReviewed: "2026-07-17"
+badge: soon
 ---
 
 > 🚧 **Stub** — a full per-command reference hasn't been published here yet. The CLI's own help is the source of truth:
@@ -16,7 +21,7 @@ auths <command> --help
 | Command | Purpose |
 |---------|---------|
 | `auths init` | Create your identity and set up Git signing (`--non-interactive` skips prompts) |
-| `auths whoami` | Show your identity (`did:keri:…`) |
+| `auths whoami` | Show your identity |
 | `auths status` | Identity + signing overview |
 | `auths sign <ref-or-range>` | Sign a commit or range |
 | `auths verify <ref/range/file>` | Verify commits or artifacts |

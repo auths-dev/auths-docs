@@ -1,48 +1,36 @@
-'use client'
-
-import { usePathname } from 'next/navigation'
-import { docsNavigation } from '@/lib/docs-navigation'
+import Link from 'next/link'
+import { ThemeToggle } from './ThemeToggle'
 
 export function DocsTopBar() {
-  const pathname = usePathname()
-
-  // Find the current section
-  let currentSection = ''
-  for (const section of docsNavigation) {
-    for (const item of section.items) {
-      if (item.href === pathname) {
-        currentSection = section.title
-        break
-      }
-      if (item.items?.some((i) => i.href === pathname)) {
-        currentSection = section.title
-        break
-      }
-    }
-    if (currentSection) break
-  }
-
   return (
-    <nav className="border-b border-gray-200 sticky top-0 z-40 bg-white">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-14 flex items-center justify-between">
-        <a href="/docs" className="flex items-center gap-2 font-semibold text-gray-900 hover:text-gray-700">
-          ← Auths
-        </a>
+    <nav className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur-sm">
+      <div className="mx-auto flex h-14 max-w-[88rem] items-center justify-between px-6">
+        <div className="flex items-baseline gap-2.5">
+          <Link href="/docs" className="font-semibold tracking-tight text-ink transition-opacity hover:opacity-80">
+            Auths
+          </Link>
+          <span className="font-mono text-[12px] uppercase tracking-[0.15em] text-ink-faint">
+            docs
+          </span>
+        </div>
 
-        {currentSection && (
-          <div className="flex-1 text-center text-sm text-gray-600 hidden sm:block">
-            {currentSection}
-          </div>
-        )}
-
-        <a
-          href="https://github.com/auths-dev/auths"
-          className="text-sm text-gray-600 hover:text-gray-900 transition"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub
-        </a>
+        <div className="flex items-center gap-5">
+          <a
+            href="https://auths.dev"
+            className="font-mono text-[13px] text-ink-faint transition-colors hover:text-ink"
+          >
+            auths.dev
+          </a>
+          <a
+            href="https://github.com/auths-dev/auths"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-[13px] text-ink-faint transition-colors hover:text-ink"
+          >
+            GitHub
+          </a>
+          <ThemeToggle />
+        </div>
       </div>
     </nav>
   )

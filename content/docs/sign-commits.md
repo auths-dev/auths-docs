@@ -1,6 +1,10 @@
 ---
 title: Sign Commits
 description: Cryptographically sign and verify your Git commits with Auths
+product: identity
+section: Guides
+order: 4
+lastReviewed: "2026-07-17"
 ---
 
 Signing a commit proves that **you** authored it — provably, offline, with no central server or API key. This guide assumes you've already installed Auths and run `auths init` (see the [quickstart](/docs/quickstart)).
@@ -48,9 +52,9 @@ A successful verification confirms the signature resolves to a trusted identity 
 Verification checks signatures against your **trusted identity roots**. Pin a teammate's identity (they share their DID and public key, e.g. from `auths whoami` and `auths id show`) so their commits verify on your machine:
 
 ```bash
-auths trust pin --did did:keri:E... --key <pubkey-hex>   # pin an identity as trusted
-auths trust list                                         # show pinned identities
-auths trust show did:keri:E...                           # details for one identity
+auths trust pin --did <their-identity> --key <pubkey-hex>   # pin an identity as trusted
+auths trust list                                            # show pinned identities
+auths trust show <their-identity>                           # details for one identity
 ```
 
 See [Team Identities](/docs/team-identities) for sharing identities across a team.

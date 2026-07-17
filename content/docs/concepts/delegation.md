@@ -1,11 +1,16 @@
 ---
 title: Delegation
 description: Allow others to sign on your behalf
+product: identity
+section: Concepts
+order: 3
+lastReviewed: "2026-07-17"
+badge: soon
 ---
 
 > 🚧 **Stub** — this page hasn't been written yet. The links below are the current sources of truth.
 
-Delegation in Auths uses KERI delegated identifiers: a root identity anchors a scoped, expiring, revocable identity for an agent or device — no key sharing.
+Delegation in Auths uses delegated identifiers: a root identity anchors a scoped, expiring, revocable identity for an agent or device — no key sharing.
 
 For what exists today:
 
