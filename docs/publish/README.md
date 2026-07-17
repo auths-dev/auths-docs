@@ -100,9 +100,11 @@ Production broke? Roll back instantly — no rebuild, same artifact:
   frozen install fails on Vercel the same way it does in CI.
 - **Redirects** live in `next.config.ts` and are served by Vercel automatically. Add new
   ones there, not in the dashboard.
-- **`next` and `eslint-config-next` are pinned to `latest`.** Builds aren't fully
-  reproducible — a background dependency bump can change a build. If a deploy breaks with
-  no code change, pin these to exact versions and recommit `bun.lock`.
+- **Pin `next` to a concrete version, never `latest`.** Vercel reads the Next.js version
+  straight from `package.json`; a dist-tag like `latest` is unparseable and fails the
+  build with *"Could not identify Next.js version."* `next` and `eslint-config-next` are
+  pinned to `16.2.1` for this reason. When you upgrade, bump to another exact version and
+  recommit `bun.lock` — don't reach for `latest`.
 - **Node version** — Vercel defaults to the current LTS. If a build needs a specific one,
   set it in **Settings → Build & Deployment → Node.js Version**.
 
