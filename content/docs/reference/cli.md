@@ -21,7 +21,7 @@ auths <command> --help
 | Command | Purpose |
 |---------|---------|
 | `auths init` | Create your identity and set up Git signing (`--non-interactive` skips prompts) |
-| `auths whoami` | Show your identity (`did:keri:…`) |
+| `auths whoami` | Show your identity |
 | `auths status` | Identity + signing overview |
 | `auths sign <ref-or-range>` | Sign a commit or range |
 | `auths verify <ref/range/file>` | Verify commits or artifacts |

@@ -21,7 +21,7 @@ auths verify <commit-sha>
 auths verify HEAD~10..HEAD
 ```
 
-`auths verify` confirms each signature resolves to a trusted identity and that the commit is unmodified. To trust a signer first, pin them with `auths trust pin --did did:keri:E... --key <pubkey-hex>` (see [Sign Commits](/docs/sign-commits)).
+`auths verify` confirms each signature resolves to a trusted identity and that the commit is unmodified. To trust a signer first, pin them with `auths trust pin --did <their-identity> --key <pubkey-hex>` (see [Sign Commits](/docs/sign-commits)).
 
 ## Verify build artifacts
 
@@ -35,7 +35,7 @@ Attestations are the same mechanism the [verify widget](https://github.com/auths
 
 ## Enforce verification in CI
 
-Use the **verify** GitHub Action to fail a pull request when commits (or artifacts) aren't properly signed. It uses ephemeral, KEL-native verification — no secrets to manage:
+Use the **verify** GitHub Action to fail a pull request when commits (or artifacts) aren't properly signed. It uses ephemeral verification against the signer's key event log (KEL) — no secrets to manage:
 
 ```yaml
 name: Verify provenance

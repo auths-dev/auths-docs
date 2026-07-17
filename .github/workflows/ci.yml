@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      # Markdoc validation + the frontmatter contract run inside the build
+      # (parseDoc throws on critical errors; getAllDocs throws on a missing
+      # field), so a page that would render wrong fails here, not in prod.
+      - name: Build
+        run: bun run build
+
+      - name: Type-check
+        run: bun run type-check
+
+      # Copy lint, verdict lint, and the link check — the drift that bit the
+      # marketing site, encoded as a gate. External links included.
+      - name: Docs check
+        run: bun run check

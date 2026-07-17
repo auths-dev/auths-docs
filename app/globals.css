@@ -97,25 +97,25 @@ article.prose {
   font-weight: 600;
 }
 
-.prose ul,
-.prose ol {
+.prose ul:not(:where(.not-prose, .not-prose *)),
+.prose ol:not(:where(.not-prose, .not-prose *)) {
   margin-bottom: 1rem;
   padding-left: 1.5rem;
 }
 
-.prose li {
+.prose li:not(:where(.not-prose, .not-prose *)) {
   margin-bottom: 0.4rem;
 }
 
-.prose ul li {
+.prose ul li:not(:where(.not-prose, .not-prose *)) {
   list-style-type: disc;
 }
 
-.prose ol li {
+.prose ol li:not(:where(.not-prose, .not-prose *)) {
   list-style-type: decimal;
 }
 
-.prose li::marker {
+.prose li:not(:where(.not-prose, .not-prose *))::marker {
   color: var(--ink-faint);
 }
 
