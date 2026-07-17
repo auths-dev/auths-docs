@@ -1,7 +1,8 @@
 'use client'
 
 import { useCallback, useState } from 'react'
-import { Highlight, themes } from 'prism-react-renderer'
+import { Highlight, themes, type PrismTheme } from 'prism-react-renderer'
+import '@/components/markdoc/prism'
 
 /**
  * The code surface of the docs, in the ledger's artifact frame: a dark pane
@@ -14,6 +15,42 @@ const OK = '#e8845c'
 const DENY = '#e2664a'
 const DIM = '#9a948c'
 const BODY = '#d6d3d1'
+
+/**
+ * Base highlight theme with comments pushed firmly into the background. The eye
+ * has to separate "run this" from "read this" at a glance, so comments — whole
+ * line or trailing annotation — render dim and italic while the command stays
+ * bright. Without this the base theme's comment hue sits too close to the code.
+ */
+const CODE_THEME: PrismTheme = {
+  ...themes.gruvboxMaterialDark,
+  styles: [
+    ...themes.gruvboxMaterialDark.styles,
+    { types: ['comment', 'prolog', 'cdata', 'shebang'], style: { color: '#736e64', fontStyle: 'italic' } },
+  ],
+}
+
+/**
+ * Fence-language normalization. Aliases collapse onto the grammar that is
+ * actually registered, and a fence with NO language renders as plain text —
+ * previously it defaulted to "bash", which mislabeled ASCII diagrams and,
+ * now that the bash grammar is real, would half-highlight them.
+ */
+const LANGUAGE_ALIASES: Record<string, string> = {
+  sh: 'bash',
+  shell: 'bash',
+  zsh: 'bash',
+  console: 'bash',
+}
+
+/** Transcript copy: only the runnable `$ ` lines, prompt stripped. */
+function commandsOnly(code: string): string {
+  const commands = code
+    .split('\n')
+    .filter((line) => line.startsWith('$ '))
+    .map((line) => line.slice(2))
+  return commands.length > 0 ? commands.join('\n') : code
+}
 
 function parseHighlight(spec?: string): Set<number> {
   const lines = new Set<number>()
@@ -78,9 +115,10 @@ export interface CodeBlockProps {
   highlight?: string
 }
 
-export function CodeBlock({ content, language = 'bash', filename, label, highlight }: CodeBlockProps) {
+export function CodeBlock({ content, language, filename, label, highlight }: CodeBlockProps) {
   const code = content.replace(/\n$/, '')
-  const isTerminal = language === 'output' || language === 'terminal'
+  const lang = LANGUAGE_ALIASES[language ?? ''] ?? language ?? 'text'
+  const isTerminal = lang === 'output' || lang === 'terminal'
   const header = filename ?? label
   const highlighted = parseHighlight(highlight)
 
@@ -88,15 +126,15 @@ export function CodeBlock({ content, language = 'bash', filename, label, highlig
     <div className="not-prose group my-6 overflow-hidden rounded-lg bg-[#15130f] shadow-[0_18px_45px_-14px_rgba(28,24,20,0.4)] ring-1 ring-black/20">
       <div className="flex items-center justify-between border-b border-white/5 px-4 py-2">
         <span className="font-mono text-[11px] tracking-wider" style={{ color: DIM }}>
-          {header ?? (isTerminal ? 'terminal' : language)}
+          {header ?? (isTerminal ? 'terminal' : lang)}
         </span>
         <span className="flex items-center gap-3">
           {header && !isTerminal ? (
             <span className="font-mono text-[11px]" style={{ color: '#6e6960' }}>
-              {language}
+              {lang}
             </span>
           ) : null}
-          <CopyButton text={code} />
+          <CopyButton text={isTerminal ? commandsOnly(code) : code} />
         </span>
       </div>
 
@@ -107,7 +145,7 @@ export function CodeBlock({ content, language = 'bash', filename, label, highlig
           ))}
         </div>
       ) : (
-        <Highlight theme={themes.gruvboxMaterialDark} code={code} language={language}>
+        <Highlight theme={CODE_THEME} code={code} language={lang}>
           {({ tokens, getLineProps, getTokenProps }) => (
             <pre className="overflow-x-auto px-4 py-3.5 font-mono text-[13px] leading-relaxed">
               {tokens.map((line, i) => {
