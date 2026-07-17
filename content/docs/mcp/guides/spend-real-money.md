@@ -31,17 +31,15 @@ Before wrapping a live rail, **dry-run the disclosure** to confirm exactly which
 
 {% code-tabs %}
 {% code-tab lang="test" label="Test mode (start here)" %}
-```bash
-# to prove the cap WITHOUT real money first, opt into sandbox rails:
-auths-mcp wrap --show-mode --test-mode --scope paid.call --budget '$5' -- node …/server.mjs
-# → mode=test … stripe.key_expected=sk_test_ … x402.network=base-sepolia …
+```output
+$ auths-mcp wrap --show-mode --test-mode --scope paid.call --budget '$5' -- node …/server.mjs
+mode=test … stripe.key_expected=sk_test_ … x402.network=base-sepolia …
 ```
 {% /code-tab %}
 {% code-tab lang="live" label="Live (real money)" %}
-```bash
-# resolve + disclose the mode and the rails it names, then exit (no proxy, no charge)
-auths-mcp wrap --show-mode --scope paid.call --budget '$5' -- node …/server.mjs
-# → mode=real stripe.endpoint=api.stripe.com stripe.key_expected=sk_live_ … x402.network=base …
+```output
+$ auths-mcp wrap --show-mode --scope paid.call --budget '$5' -- node …/server.mjs
+mode=real stripe.endpoint=api.stripe.com stripe.key_expected=sk_live_ … x402.network=base …
 ```
 {% /code-tab %}
 {% /code-tabs %}
@@ -59,7 +57,7 @@ Custody it on the gateway (the agent never sees it) and wrap the Stripe adapter 
 {% code-tabs %}
 {% code-tab lang="test" label="Test mode (start here)" %}
 ```bash
-export STRIPE_API_KEY=sk_test_...     # a TEST-mode key from the dashboard's Test mode toggle
+export STRIPE_API_KEY=sk_test_...
 auths-mcp wrap \
   --test-mode \
   --scope paid.call --budget '$5' --ttl 30m \
@@ -82,7 +80,7 @@ The gateway discloses `mode=real`, then extracts `amount_captured` from each rea
 {% /step %}
 
 {% step title="Wrap real USDC over x402 — same cap" %}
-Fund a **base mainnet** wallet with **real USDC** (and a little ETH for gas), and obtain a **mainnet** x402 facilitator URL.
+Fund a **base mainnet** wallet with **real USDC** (and a little ETH for gas), and obtain a **mainnet** x402 facilitator URL. For the test tab, fund a **base-sepolia** testnet wallet and use a base-sepolia facilitator instead.
 
 {% callout type="danger" title="No chargeback" %}
 On-chain USDC transfers are **irreversible**. There is no chargeback.
@@ -93,8 +91,8 @@ Custody both and wrap the x402 adapter (same `$5` cap — it's the **same** cros
 {% code-tabs %}
 {% code-tab lang="test" label="Test mode (start here)" %}
 ```bash
-export X402_WALLET_PRIVATE_KEY=0x...        # a FUNDED base-sepolia USDC testnet wallet
-export X402_FACILITATOR_URL=https://...     # a base-sepolia x402 facilitator
+export X402_WALLET_PRIVATE_KEY=0x...
+export X402_FACILITATOR_URL=https://...
 auths-mcp wrap \
   --test-mode \
   --scope paid.call --budget '$5' --ttl 30m \
@@ -105,8 +103,8 @@ auths-mcp wrap \
 {% /code-tab %}
 {% code-tab lang="live" label="Live (real money)" %}
 ```bash
-export X402_WALLET_PRIVATE_KEY=0x...      # a funded base MAINNET USDC wallet
-export X402_FACILITATOR_URL=https://...   # a mainnet facilitator
+export X402_WALLET_PRIVATE_KEY=0x...
+export X402_FACILITATOR_URL=https://...
 auths-mcp wrap \
   --scope paid.call --budget '$5' --ttl 30m \
   --custody-credential X402_WALLET_PRIVATE_KEY \

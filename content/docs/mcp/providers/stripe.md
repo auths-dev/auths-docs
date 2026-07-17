@@ -25,7 +25,7 @@ Adapter paths in the commands below are relative to a checkout of [github.com/au
 {% code-tabs %}
 {% code-tab lang="test" label="Test mode (start here)" %}
 ```bash
-export STRIPE_API_KEY=sk_test_...     # a TEST-mode key from the dashboard's Test mode toggle
+export STRIPE_API_KEY=sk_test_...
 auths-mcp wrap \
   --test-mode \
   --scope paid.call --budget '$5' --ttl 30m \
@@ -35,7 +35,6 @@ auths-mcp wrap \
 {% /code-tab %}
 {% code-tab lang="live" label="Live (real money)" %}
 ```bash
-# run live, with the live key custodied by the gateway (the agent never sees it)
 export STRIPE_API_KEY=sk_live_...
 auths-mcp wrap \
   --scope paid.call --budget '$5' --ttl 30m \
