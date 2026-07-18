@@ -44,6 +44,9 @@
   --color-seal-deep: var(--seal-deep);
   --color-deny: var(--deny);
   --color-terminal: var(--terminal);
+  /* Fraunces — the display face shared with auths.dev / market.auths.dev,
+     loaded via next/font in app/layout.tsx. Powers `font-display`. */
+  --font-display: var(--font-fraunces);
 }
 
 html {
