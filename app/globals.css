@@ -192,10 +192,29 @@ article.prose {
   margin: 2.5rem 0;
 }
 
-/* Anchored headings: hover reveals a link affordance. */
-.prose h2:hover::after,
-.prose h3:hover::after {
-  content: " #";
-  color: var(--ink-faint);
-  font-weight: 400;
+/* Anchored headings: a clickable link icon (seal-red) that links to the section.
+   Hidden until the heading is hovered or the icon is keyboard-focused, so a
+   reader can grab a shareable URL without the icon cluttering the heading. */
+/* The inline wrapper is the hover target — sized to the text + icon only, so the
+   icon does NOT stay visible when the cursor is elsewhere along the heading's
+   full-width line. */
+.prose .heading-inner {
+  position: relative;
+}
+.prose .heading-anchor {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.35em;
+  color: var(--seal);
+  border-bottom: none; /* override the .prose a underline */
+  opacity: 0;
+  transition: opacity 130ms ease, color 120ms ease;
+  vertical-align: middle;
+}
+.prose .heading-inner:hover .heading-anchor,
+.prose .heading-anchor:focus-visible {
+  opacity: 1;
+}
+.prose .heading-anchor:hover {
+  color: var(--seal-deep);
 }

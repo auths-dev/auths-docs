@@ -37,7 +37,17 @@ export function buildConfig(): Config {
           const attributes = node.transformAttributes(config)
           const children = node.transformChildren(config)
           const id = attributes.id ?? slugger.slug(headingText(node))
-          return new Tag(`h${node.attributes.level}`, { ...attributes, id }, children)
+          // A clickable link-icon anchor (shown on hover via .heading-anchor
+          // CSS) so a reader can grab a shareable link to the exact section.
+          const anchor = new Tag('HeadingAnchor', { id }, [])
+          // Wrap the text + anchor in an inline span so the hover trigger is the
+          // text/icon only — NOT the full-width heading block, which would keep
+          // the icon visible anywhere along the heading's horizontal line.
+          const inner = new Tag('span', { className: 'heading-inner' }, [
+            ...children,
+            anchor,
+          ])
+          return new Tag(`h${node.attributes.level}`, { ...attributes, id }, [inner])
         },
       },
       fence: {
