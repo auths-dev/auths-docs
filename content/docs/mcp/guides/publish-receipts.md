@@ -63,6 +63,24 @@ https://your.host/agent/audit.json     ← the manifest naming the verify inputs
 - `root` — the root identity of the registry (the identity tooling prints it; it is
   the anchor the agent's delegation chains to).
 
+## One command: `export-spend-bundle`
+
+The whole publish step is a single gateway command — it flattens the (rotated)
+spend log into one `spend.jsonl`, writes the `audit.json` manifest, and commits
+the registry working files in the same motion:
+
+```bash
+auths-mcp export-spend-bundle \
+  --live-dir "$AUTHS_MCP_LIVE_DIR" \
+  --agent  "did:keri:<your agent>" \
+  --root   "did:keri:<your root>" \
+  --registry-url "https://github.com/you/agent-registry" \
+  --out ./publish
+```
+
+Serve `./publish` from any static host and you are done. The sections below
+describe what the command produces, and remain the manual path if you need it.
+
 ## Commit the working files — or the audit fails
 
 The registry's identity history lives in git refs, but the **durable budget counter
