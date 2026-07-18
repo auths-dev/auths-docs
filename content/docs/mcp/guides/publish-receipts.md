@@ -72,8 +72,8 @@ the registry working files in the same motion:
 ```bash
 auths-mcp export-spend-bundle \
   --live-dir "$AUTHS_MCP_LIVE_DIR" \
-  --agent  "did:keri:<your agent>" \
-  --root   "did:keri:<your root>" \
+  --agent  "<the agent identifier from your spend-log directory>" \
+  --root   "<the root identity your registry prints>" \
   --registry-url "https://github.com/you/agent-registry" \
   --out ./publish
 ```
