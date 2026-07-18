@@ -14,6 +14,6 @@ In short: your identity is a self-certifying identifier backed by a key event lo
 
 For what exists today:
 
-- [Quickstart](/docs/quickstart) — create an identity and see it in action
-- [Authentication](/docs/authentication) — how identities authenticate agents and services
-- [Sign Commits](/docs/sign-commits) — how identity binds to Git commits
+- [Quickstart](/docs/idsigning/quickstart) — create an identity and see it in action
+- [Authentication](/docs/idsigning/authentication) — how identities authenticate agents and services
+- [Sign Commits](/docs/idsigning/sign-commits) — how identity binds to Git commits

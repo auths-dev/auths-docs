@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { ProductNav } from '@/lib/content'
 
 /**
  * Frontmatter-derived nav with the product switch on top: auths-mcp and
- * Identity & signing are separate worlds that never intermix.
+ * Identity & signing are separate worlds that never intermix. The switch
+ * navigates to each product's landing page; the shown product follows the URL.
  */
 
 function productForPath(nav: ProductNav[], pathname: string): ProductNav['product'] {
@@ -17,35 +17,40 @@ function productForPath(nav: ProductNav[], pathname: string): ProductNav['produc
   return 'mcp'
 }
 
+/** A product's first navigable page — where its switch tab points. */
+function landingHref(p: ProductNav): string {
+  for (const section of p.sections) {
+    const first = section.items.find((i) => i.badge !== 'soon')
+    if (first) return first.href
+  }
+  return '#'
+}
+
 export function DocsSidebar({ nav }: { nav: ProductNav[] }) {
   const pathname = usePathname()
   const currentProduct = productForPath(nav, pathname)
-  const [product, setProduct] = useState<ProductNav['product']>(currentProduct)
-  const active = nav.find((p) => p.product === product) ?? nav[0]
+  const active = nav.find((p) => p.product === currentProduct) ?? nav[0]
 
   return (
     <nav className="space-y-8">
-      <div
-        role="tablist"
-        aria-label="Product"
-        className="flex rounded-lg border border-rule bg-paper p-1"
-      >
-        {nav.map((p) => (
-          <button
-            key={p.product}
-            role="tab"
-            type="button"
-            aria-selected={p.product === product}
-            onClick={() => setProduct(p.product)}
-            className={`flex-1 rounded-md px-2 py-1.5 font-mono text-[12px] transition-colors ${
-              p.product === product
-                ? 'bg-paper-deep font-semibold text-ink'
-                : 'text-ink-faint hover:text-ink'
-            }`}
-          >
-            {p.label}
-          </button>
-        ))}
+      <div aria-label="Product" className="flex rounded-lg border border-rule bg-paper p-1">
+        {nav.map((p) => {
+          const selected = p.product === currentProduct
+          return (
+            <Link
+              key={p.product}
+              href={landingHref(p)}
+              aria-current={selected ? 'page' : undefined}
+              className={`flex-1 rounded-md px-2 py-1.5 text-center font-mono text-[12px] transition-colors ${
+                selected
+                  ? 'bg-paper-deep font-semibold text-ink'
+                  : 'text-ink-faint hover:text-ink'
+              }`}
+            >
+              {p.label}
+            </Link>
+          )
+        })}
       </div>
 
       {active.sections.map((section) => (

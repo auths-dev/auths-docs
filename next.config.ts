@@ -15,9 +15,19 @@ const nextConfig: NextConfig = {
   // getting-started tree) redirect in a single hop to the canonical quickstart.
   async redirects() {
     return [
-      { source: '/getting-started', destination: '/docs/quickstart', permanent: true },
-      { source: '/docs/getting-started', destination: '/docs/quickstart', permanent: true },
-      { source: '/docs/getting-started/:path*', destination: '/docs/quickstart', permanent: true },
+      { source: '/getting-started', destination: '/docs/idsigning/quickstart', permanent: true },
+      { source: '/docs/getting-started', destination: '/docs/idsigning/quickstart', permanent: true },
+      { source: '/docs/getting-started/:path*', destination: '/docs/idsigning/quickstart', permanent: true },
+      // Identity & signing moved under /docs/idsigning — keep old links working.
+      { source: '/docs/quickstart', destination: '/docs/idsigning/quickstart', permanent: false },
+      { source: '/docs/installation', destination: '/docs/idsigning/installation', permanent: false },
+      { source: '/docs/authentication', destination: '/docs/idsigning/authentication', permanent: false },
+      { source: '/docs/sign-commits', destination: '/docs/idsigning/sign-commits', permanent: false },
+      { source: '/docs/team-identities', destination: '/docs/idsigning/team-identities', permanent: false },
+      { source: '/docs/build-agents', destination: '/docs/idsigning/build-agents', permanent: false },
+      { source: '/docs/prove-provenance', destination: '/docs/idsigning/prove-provenance', permanent: false },
+      { source: '/docs/concepts/:path*', destination: '/docs/idsigning/concepts/:path*', permanent: false },
+      { source: '/docs/reference/:path*', destination: '/docs/idsigning/reference/:path*', permanent: false },
     ]
   },
 }

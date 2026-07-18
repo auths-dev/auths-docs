@@ -29,7 +29,7 @@ Confirm it's on your PATH:
 auths --version
 ```
 
-You should see the installed version printed. (Other install methods — curl, build-from-source — are on the [installation page](/docs/installation).)
+You should see the installed version printed. (Other install methods — curl, build-from-source — are on the [installation page](/docs/idsigning/installation).)
 
 ## 2. Create your identity
 
@@ -93,5 +93,5 @@ Auths can render a **"Verified" badge** for a repository's releases using the em
 ## Next steps
 
 - **[Bound an AI agent](/docs/mcp)** — put a Claude or Cursor MCP agent behind a scope, a budget, and an expiry.
-- **[Sign commits in depth](/docs/sign-commits)** — signing ranges, CI, and team workflows.
-- **[Concepts](/docs/concepts/identity-model)** — how identities, keys, and verification work under the hood.
+- **[Sign commits in depth](/docs/idsigning/sign-commits)** — signing ranges, CI, and team workflows.
+- **[Concepts](/docs/idsigning/concepts/identity-model)** — how identities, keys, and verification work under the hood.

@@ -88,7 +88,7 @@ For an autonomous agent (not a CI step) that needs to act on its own, delegate a
 
 ## Related
 
-- [Sign Commits](/docs/sign-commits)
-- [Prove Provenance](/docs/prove-provenance)
-- [GitHub Actions reference](/docs/reference/github-actions)
+- [Sign Commits](/docs/idsigning/sign-commits)
+- [Prove Provenance](/docs/idsigning/prove-provenance)
+- [GitHub Actions reference](/docs/idsigning/reference/github-actions)
 - [The bounded agent](/docs/mcp)

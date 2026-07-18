@@ -42,7 +42,7 @@ For stateless verification in CI (no local identity store), export an identity b
 auths id export-bundle            # advanced command (auths --help-all)
 ```
 
-Pass the result to `auths-dev/verify` via its `identity-bundle` input — see [Build Agents](/docs/build-agents).
+Pass the result to `auths-dev/verify` via its `identity-bundle` input — see [Build Agents](/docs/idsigning/build-agents).
 
 ## Delegating to agents
 
@@ -63,9 +63,9 @@ See the [bounded-agent gateway](/docs/mcp) for the full delegation, scoping, and
 1. **One identity per person and per machine** — never share private keys.
 2. **Delegate, don't share** — give agents scoped, expiring credentials instead of a human key.
 3. **Check in your trust roots** so everyone (and CI) verifies against the same set.
-4. **Rotate regularly** — see [Key Rotation](/docs/concepts/key-rotation).
+4. **Rotate regularly** — see [Key Rotation](/docs/idsigning/concepts/key-rotation).
 
-> **Note:** team-wide *policy enforcement* (mandatory review, rotation schedules) is not yet a CLI surface — see [Delegation](/docs/concepts/delegation) for the model.
+> **Note:** team-wide *policy enforcement* (mandatory review, rotation schedules) is not yet a CLI surface — see [Delegation](/docs/idsigning/concepts/delegation) for the model.
 
 ## Troubleshooting
 
@@ -77,7 +77,7 @@ See the [bounded-agent gateway](/docs/mcp) for the full delegation, scoping, and
 
 ## Related topics
 
-- [Sign Commits](/docs/sign-commits)
+- [Sign Commits](/docs/idsigning/sign-commits)
 - [The bounded agent](/docs/mcp)
-- [Delegation](/docs/concepts/delegation)
-- [Key Rotation](/docs/concepts/key-rotation)
+- [Delegation](/docs/idsigning/concepts/delegation)
+- [Key Rotation](/docs/idsigning/concepts/key-rotation)

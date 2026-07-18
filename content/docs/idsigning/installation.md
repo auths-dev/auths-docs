@@ -94,7 +94,7 @@ This guided wizard will:
 2. Generate your first signing key
 3. Set up default options
 
-> New here? Follow the [5-minute quickstart](/docs/quickstart) to sign and verify your first commit.
+> New here? Follow the [5-minute quickstart](/docs/idsigning/quickstart) to sign and verify your first commit.
 
 ## Updating Auths
 
@@ -131,7 +131,7 @@ If you have multiple versions installed:
 
 ## Next Steps
 
-- [5-minute quickstart](/docs/quickstart)
-- [Sign your first commit](/docs/sign-commits)
-- [Set up team identities](/docs/team-identities)
-- [Configure for CI/CD](/docs/build-agents)
+- [5-minute quickstart](/docs/idsigning/quickstart)
+- [Sign your first commit](/docs/idsigning/sign-commits)
+- [Set up team identities](/docs/idsigning/team-identities)
+- [Configure for CI/CD](/docs/idsigning/build-agents)

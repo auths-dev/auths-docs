@@ -14,6 +14,6 @@ Delegation in Auths uses delegated identifiers: a root identity anchors a scoped
 
 For what exists today:
 
-- [Team Identities](/docs/team-identities) — the `auths id agent add` delegation workflow
-- [Build Agents](/docs/build-agents) — delegating to CI and agents in practice
+- [Team Identities](/docs/idsigning/team-identities) — the `auths id agent add` delegation workflow
+- [Build Agents](/docs/idsigning/build-agents) — delegating to CI and agents in practice
 - `auths id agent --help` — the full command surface

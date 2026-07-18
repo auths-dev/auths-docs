@@ -21,7 +21,7 @@ auths whoami      # your identity
 auths status      # identity + signing overview
 ```
 
-You **prove** your identity by signing (`auths sign`); others **authenticate** you by verifying (`auths verify`) against a trusted copy of your public identity — entirely offline, no server in the loop. See the [quickstart](/docs/quickstart).
+You **prove** your identity by signing (`auths sign`); others **authenticate** you by verifying (`auths verify`) against a trusted copy of your public identity — entirely offline, no server in the loop. See the [quickstart](/docs/idsigning/quickstart).
 
 ## Trust instead of accounts
 
@@ -32,7 +32,7 @@ auths trust pin --did <their-identity> --key <pubkey-hex>   # trust an identity
 auths trust list
 ```
 
-See [Team Identities](/docs/team-identities) for sharing trust across a team.
+See [Team Identities](/docs/idsigning/team-identities) for sharing trust across a team.
 
 ## Authenticating agents and services
 
@@ -52,7 +52,7 @@ See the [bounded-agent gateway](/docs/mcp).
 
 ## Related
 
-- [Quickstart](/docs/quickstart)
-- [Team Identities](/docs/team-identities)
+- [Quickstart](/docs/idsigning/quickstart)
+- [Team Identities](/docs/idsigning/team-identities)
 - [The bounded agent](/docs/mcp)
-- [Identity Model](/docs/concepts/identity-model)
+- [Identity Model](/docs/idsigning/concepts/identity-model)

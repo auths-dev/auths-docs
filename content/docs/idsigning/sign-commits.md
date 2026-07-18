@@ -7,7 +7,7 @@ order: 4
 lastReviewed: "2026-07-17"
 ---
 
-Signing a commit proves that **you** authored it — provably, offline, with no central server or API key. This guide assumes you've already installed Auths and run `auths init` (see the [quickstart](/docs/quickstart)).
+Signing a commit proves that **you** authored it — provably, offline, with no central server or API key. This guide assumes you've already installed Auths and run `auths init` (see the [quickstart](/docs/idsigning/quickstart)).
 
 ## Sign a commit
 
@@ -57,7 +57,7 @@ auths trust list                                            # show pinned identi
 auths trust show <their-identity>                           # details for one identity
 ```
 
-See [Team Identities](/docs/team-identities) for sharing identities across a team.
+See [Team Identities](/docs/idsigning/team-identities) for sharing identities across a team.
 
 ## Configuration
 
@@ -72,7 +72,7 @@ Run `auths config --help` for available keys.
 
 ## Key management
 
-Your signing key is created and managed by `auths init`. Rotation, additional keys, and identity inspection live under the advanced identity commands (`auths id …`, visible via `auths --help-all`) — for example `auths id rotate`. See [Key Rotation](/docs/concepts/key-rotation) for the model behind pre-rotation and why old signatures stay valid after a rotation.
+Your signing key is created and managed by `auths init`. Rotation, additional keys, and identity inspection live under the advanced identity commands (`auths id …`, visible via `auths --help-all`) — for example `auths id rotate`. See [Key Rotation](/docs/idsigning/concepts/key-rotation) for the model behind pre-rotation and why old signatures stay valid after a rotation.
 
 ## Troubleshooting
 
@@ -93,6 +93,6 @@ auths doctor
 
 ## Next steps
 
-- [Prove provenance](/docs/prove-provenance) — verify ranges, artifacts, and CI builds
-- [Team identities](/docs/team-identities) — share and trust identities across a team
-- [Key rotation](/docs/concepts/key-rotation) — how rotation preserves historical validity
+- [Prove provenance](/docs/idsigning/prove-provenance) — verify ranges, artifacts, and CI builds
+- [Team identities](/docs/idsigning/team-identities) — share and trust identities across a team
+- [Key rotation](/docs/idsigning/concepts/key-rotation) — how rotation preserves historical validity
