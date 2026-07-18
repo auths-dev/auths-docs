@@ -4,7 +4,7 @@ description: Every gated call is signed and logged; anyone can re-derive the spe
 product: mcp
 section: Core ideas
 order: 4
-lastReviewed: "2026-07-17"
+lastReviewed: "2026-07-18"
 ---
 
 A log is a claim the operator makes about themselves. A receipt is a claim you can
@@ -66,6 +66,19 @@ The last three are why handing you the log is not an act of trust: an **edited**
 record breaks its signature, a **removed** record breaks the back-link chain, and a
 **truncated** log disagrees with the durable counter. Each forgery has a distinct
 verdict, and the audit fails loudly on all of them.
+
+## Publishing the log
+
+A log on your disk convinces nobody. Published as a bundle — the log, an
+`audit.json` naming the verify inputs (`registry_git_url`, `agent`, `root`), and a
+pushed registry — it convinces anyone: a relying party re-runs the audit above from
+your published pieces alone and renders only what re-derives. Two contract details
+matter on the consuming side: identity refs do not ride a plain `git clone`
+(verifiers fetch `refs/*` and check out the published branch, which also
+materializes the durable counter), and the machine-readable success line is exactly
+`consistent — N call(s), $X re-derived from signed costs`. The full walkthrough,
+including the commit-your-working-files step that keeps the counter and the log in
+agreement: [Publish your receipts](/docs/mcp/guides/publish-receipts).
 
 ## Revocation
 
