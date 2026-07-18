@@ -6,6 +6,7 @@ import { Card, CardGroup } from '@/components/markdoc/Cards'
 import { Steps, Step } from '@/components/markdoc/Steps'
 import { CodeTabs, CodeTab } from '@/components/markdoc/CodeTabs'
 import { VerdictChip } from '@/components/markdoc/VerdictChip'
+import { HeadingAnchor } from '@/components/markdoc/HeadingAnchor'
 
 /** The single map from Markdoc tag names to React components. */
 const components = {
@@ -18,6 +19,7 @@ const components = {
   CodeTabs,
   CodeTab,
   VerdictChip,
+  HeadingAnchor,
 }
 
 /** Renders a transformed Markdoc tree to React — no HTML strings, ever. */
