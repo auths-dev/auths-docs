@@ -45,10 +45,10 @@ Three mechanisms carry those bounds, each with its own page:
 - **A delegation, not a token.** The agent holds a delegated identity with its scope,
   budget, and expiry fixed at issue time — not a bearer token that anyone who copies
   it can replay. The key material stays on the machine that created it.
-- **One durable budget across every rail** — the [cross-rail cap](/docs/mcp/concepts/budgets).
-- **A signed receipt per call**, re-checkable by anyone — [receipts](/docs/mcp/concepts/receipts).
+- **One durable budget across every rail** — the [cross-rail cap](/mcp/concepts/budgets).
+- **A signed receipt per call**, re-checkable by anyone — [receipts](/mcp/concepts/receipts).
 
-And because the gateway [custodies the downstream credential](/docs/mcp/concepts/custody),
+And because the gateway [custodies the downstream credential](/mcp/concepts/custody),
 an agent that bypasses the gateway reaches the raw server with no credential at all —
 the boundary is unbypassable for credentialed resources.
 

@@ -21,7 +21,7 @@ auths verify <commit-sha>
 auths verify HEAD~10..HEAD
 ```
 
-`auths verify` confirms each signature resolves to a trusted identity and that the commit is unmodified. To trust a signer first, pin them with `auths trust pin --did <their-identity> --key <pubkey-hex>` (see [Sign Commits](/docs/idsigning/sign-commits)).
+`auths verify` confirms each signature resolves to a trusted identity and that the commit is unmodified. To trust a signer first, pin them with `auths trust pin --did <their-identity> --key <pubkey-hex>` (see [Sign Commits](/idsigning/sign-commits)).
 
 ## Verify build artifacts
 
@@ -58,23 +58,23 @@ jobs:
 
 For stateless verification against a specific identity, pass an `identity-bundle` (generate one with the advanced command `auths id export-bundle`). The companion **sign** action (`auths-dev/sign@v1`) signs commits or artifacts in CI with ephemeral keys.
 
-> See the [GitHub Actions reference](/docs/idsigning/reference/github-actions) for the full input list.
+> See the [GitHub Actions reference](/idsigning/reference/github-actions) for the full input list.
 
 ## Best practices
 
 1. **Sign everything you release** — commits and artifacts.
 2. **Verify before you ship** — gate merges and releases on `auths-dev/verify`.
 3. **Pin the CLI version** in CI (`auths-version`) — never resolve `latest`.
-4. **Distribute trust roots** so verifiers can anchor your signatures (see [Team Identities](/docs/idsigning/team-identities)).
+4. **Distribute trust roots** so verifiers can anchor your signatures (see [Team Identities](/idsigning/team-identities)).
 
 ## Advanced topics
 
-- [Delegation](/docs/idsigning/concepts/delegation)
-- [Key Rotation](/docs/idsigning/concepts/key-rotation)
-- [Identity Model](/docs/idsigning/concepts/identity-model)
+- [Delegation](/idsigning/concepts/delegation)
+- [Key Rotation](/idsigning/concepts/key-rotation)
+- [Identity Model](/idsigning/concepts/identity-model)
 
 ## Related
 
-- [Sign Commits](/docs/idsigning/sign-commits)
-- [Build Agents](/docs/idsigning/build-agents)
-- [Team Identities](/docs/idsigning/team-identities)
+- [Sign Commits](/idsigning/sign-commits)
+- [Build Agents](/idsigning/build-agents)
+- [Team Identities](/idsigning/team-identities)

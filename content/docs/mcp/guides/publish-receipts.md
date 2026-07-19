@@ -10,7 +10,7 @@ lastReviewed: "2026-07-18"
 A spend log on your disk proves nothing to anyone else. Publishing it does: hand a
 relying party the log, the audit manifest, and the registry it verifies against, and
 they can re-derive every cent **without trusting you** — the same offline audit from
-[receipts](/docs/mcp/concepts/receipts), run by someone who never saw your gateway.
+[receipts](/mcp/concepts/receipts), run by someone who never saw your gateway.
 This is what marketplaces and dashboards mean by "re-derived numbers": they render
 what your published bundle proves, nothing else.
 
@@ -120,7 +120,7 @@ Anything but {% verdict code="consistent" /%} is a loud, specific verdict — an
 record is {% verdict code="tampered-proof" /%}, a removed one
 {% verdict code="dropped-call" /%}, a truncated tail
 {% verdict code="budget-mismatch" /%}. See
-[what the audit catches](/docs/mcp/concepts/receipts#what-the-audit-catches).
+[what the audit catches](/mcp/concepts/receipts#what-the-audit-catches).
 
 Note the fetch shape: identity refs do not ride a plain `git clone`, so verifiers
 fetch `refs/*` explicitly and check out your published branch to materialize the

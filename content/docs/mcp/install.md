@@ -74,5 +74,5 @@ names — then exits without serving the proxy or touching a rail:
 auths-mcp wrap --show-mode --scope fs.read --budget '$5' -- <downstream server>
 ```
 
-That's the whole install. Next: [wrap your first server](/docs/mcp/quickstart) —
+That's the whole install. Next: [wrap your first server](/mcp/quickstart) —
 no money, five minutes.

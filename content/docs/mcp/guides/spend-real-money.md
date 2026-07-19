@@ -15,7 +15,7 @@ The gateway resolves a wrapped payment rail to **real money by default**: with n
 
 ## The seatbelt: the cap is what makes this sane
 
-Do not think of the [cap](/docs/mcp/concepts/budgets) as a setting — think of it as a **seatbelt**. With a `$5` delegation, the agent cannot spend `$5.01`. Not "shouldn't" — **cannot**: the gateway reserves each charge against the cap *before* the rail is touched and refuses the call that would cross it, across **all** rails at once. The cap bounds your **downside**, not the probability of a bad decision. And it is not optional: a payment rail wrapped with no `--budget` is refused {% verdict code="budget-required" /%}, fail-closed, in **both** modes. So the discipline is simple: **start with the smallest cap that proves the point, and prove the cap in test mode first.**
+Do not think of the [cap](/mcp/concepts/budgets) as a setting — think of it as a **seatbelt**. With a `$5` delegation, the agent cannot spend `$5.01`. Not "shouldn't" — **cannot**: the gateway reserves each charge against the cap *before* the rail is touched and refuses the call that would cross it, across **all** rails at once. The cap bounds your **downside**, not the probability of a bad decision. And it is not optional: a payment rail wrapped with no `--budget` is refused {% verdict code="budget-required" /%}, fail-closed, in **both** modes. So the discipline is simple: **start with the smallest cap that proves the point, and prove the cap in test mode first.**
 
 Adapter paths in the commands below are relative to a checkout of [github.com/auths-dev/auths-mcp](https://github.com/auths-dev/auths-mcp).
 
@@ -76,7 +76,7 @@ auths-mcp wrap \
 {% /code-tab %}
 {% /code-tabs %}
 
-The gateway discloses `mode=real`, then extracts `amount_captured` from each real Charge, meters it against the cap, and refuses any charge that would cross `$5` — {% verdict code="usage-cap-exceeded" /%}, **before** Stripe is called, so the card is never charged past the cap. The [receipt](/docs/mcp/concepts/receipts) names the real `ch_…`. Full rail details: [Stripe rail](/docs/mcp/providers/stripe).
+The gateway discloses `mode=real`, then extracts `amount_captured` from each real Charge, meters it against the cap, and refuses any charge that would cross `$5` — {% verdict code="usage-cap-exceeded" /%}, **before** Stripe is called, so the card is never charged past the cap. The [receipt](/mcp/concepts/receipts) names the real `ch_…`. Full rail details: [Stripe rail](/mcp/providers/stripe).
 {% /step %}
 
 {% step title="Wrap real USDC over x402 — same cap" %}
@@ -114,7 +114,7 @@ auths-mcp wrap \
 {% /code-tab %}
 {% /code-tabs %}
 
-Stripe spend **and** x402 spend share the one `$5` cap. An agent at `$4.99` on Stripe and `$4.99` on x402 has spent `$9.98` of `$5` — the next call on **either** rail is refused. Full rail details: [x402 / USDC rail](/docs/mcp/providers/x402).
+Stripe spend **and** x402 spend share the one `$5` cap. An agent at `$4.99` on Stripe and `$4.99` on x402 has spent `$9.98` of `$5` — the next call on **either** rail is refused. Full rail details: [x402 / USDC rail](/mcp/providers/x402).
 {% /step %}
 
 {% step title="Ask an agent to spend real money" %}
@@ -132,7 +132,7 @@ A real `claude-opus-4-8` tool-loop runs behind the gateway, making real charges 
 
 ## Kill it instantly
 
-If anything looks wrong, revoke the agent's delegation — its **next call fails on every rail at once**, with no propagation window. That's the "stop spending now" button, and it actually works: [revocation](/docs/mcp/concepts/receipts) is proved by the suite.
+If anything looks wrong, revoke the agent's delegation — its **next call fails on every rail at once**, with no propagation window. That's the "stop spending now" button, and it actually works: [revocation](/mcp/concepts/receipts) is proved by the suite.
 
 ## Safety checklist
 

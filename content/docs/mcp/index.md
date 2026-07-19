@@ -23,16 +23,16 @@ $ auths-mcp wrap --budget '$20' --ttl 30m -- my-mcp-server
 
 The refusal is the product. Every call — allowed or refused — leaves a signed receipt,
 and anyone can re-derive the spend from the receipts alone, offline, without trusting
-you or us. See [receipts](/docs/mcp/concepts/receipts).
+you or us. See [receipts](/mcp/concepts/receipts).
 
 ## Where to start
 
 {% card-group %}
-{% card title="Quickstart — no money" href="/docs/mcp/quickstart" icon="terminal" %}
+{% card title="Quickstart — no money" href="/mcp/quickstart" icon="terminal" %}
 Wrap a filesystem server and watch a refusal in five minutes. No card, no wallet,
 nothing at risk.
 {% /card %}
-{% card title="Spend real money" href="/docs/mcp/guides/spend-real-money" icon="wallet" %}
+{% card title="Spend real money" href="/mcp/guides/spend-real-money" icon="wallet" %}
 Put a real model on real rails — Stripe and on-chain USDC — behind one cap it provably
 cannot cross.
 {% /card %}
@@ -47,6 +47,6 @@ Every `tools/call` runs one gate and fails closed. A call outside the granted sc
 {% verdict code="revoked" /%}. On any of them, the downstream tool is never invoked.
 
 How each bound works — and why you can check the receipts yourself — is four short
-pages: [the gate](/docs/mcp/concepts/how-it-works),
-[budgets](/docs/mcp/concepts/budgets), [custody](/docs/mcp/concepts/custody), and
-[receipts](/docs/mcp/concepts/receipts).
+pages: [the gate](/mcp/concepts/how-it-works),
+[budgets](/mcp/concepts/budgets), [custody](/mcp/concepts/custody), and
+[receipts](/mcp/concepts/receipts).

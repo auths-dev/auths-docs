@@ -6,7 +6,7 @@ export function DocsTopBar() {
     <nav className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur-sm">
       <div className="mx-auto flex h-14 max-w-[88rem] items-center justify-between px-6">
         <Link
-          href="/docs"
+          href="/"
           className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}

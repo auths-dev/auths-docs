@@ -78,7 +78,7 @@ matter on the consuming side: identity refs do not ride a plain `git clone`
 materializes the durable counter), and the machine-readable success line is exactly
 `consistent — N call(s), $X re-derived from signed costs`. The full walkthrough,
 including the commit-your-working-files step that keeps the counter and the log in
-agreement: [Publish your receipts](/docs/mcp/guides/publish-receipts).
+agreement: [Publish your receipts](/mcp/guides/publish-receipts).
 
 ## Revocation
 
@@ -86,4 +86,4 @@ If anything looks wrong, revoke the agent's delegation. The revocation is a sign
 event in your identity's history — the agent's **next call fails on every rail at
 once** with {% verdict code="revoked" /%}, no propagation window, and the other
 agents keep working. Keep the revoke step ready whenever real money is live; the
-[walkthrough](/docs/mcp/guides/spend-real-money) treats it as the kill switch.
+[walkthrough](/mcp/guides/spend-real-money) treats it as the kill switch.

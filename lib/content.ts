@@ -26,7 +26,7 @@ export interface DocFrontmatter {
 }
 
 export interface DocEntry {
-  /** Slug segments relative to /docs, e.g. ['mcp', 'quickstart']. */
+  /** Slug segments, e.g. ['mcp', 'quickstart'] → /mcp/quickstart. */
   slug: string[]
   href: string
   filePath: string
@@ -42,6 +42,8 @@ export interface NavItem {
 export interface NavSection {
   title: string
   items: NavItem[]
+  /** Large topics render as one collapsible row; flat sections stay open. */
+  collapsible: boolean
 }
 
 export interface ProductNav {
@@ -52,8 +54,18 @@ export interface ProductNav {
 
 /** Section display order per product — the only hand-maintained nav input. */
 const SECTION_ORDER: Record<'mcp' | 'identity', string[]> = {
-  mcp: ['Get started', 'Core ideas', 'Spend real money'],
+  mcp: ['Get started', 'Core ideas', 'Spend real money', 'Witness network'],
   identity: ['Guides', 'Concepts', 'Reference'],
+}
+
+/**
+ * Large topics that collapse to a single sidebar row (expanded when the
+ * reader is inside them) — the second and last hand-maintained nav input.
+ * Keeps a many-page topic from flooding the sidebar.
+ */
+const COLLAPSIBLE_SECTIONS: Record<'mcp' | 'identity', string[]> = {
+  mcp: ['Witness network'],
+  identity: [],
 }
 
 const PRODUCT_LABEL: Record<'mcp' | 'identity', string> = {
@@ -107,7 +119,7 @@ function readFrontmatter(filePath: string): DocFrontmatter {
 function toSlug(filePath: string): string[] {
   const rel = path.relative(CONTENT_DIR, filePath).replace(/\.md$/, '')
   const segments = rel.split(path.sep)
-  // index files collapse onto their directory: mcp/index.md → /docs/mcp
+  // index files collapse onto their directory: mcp/index.md → /mcp
   if (segments[segments.length - 1] === 'index') segments.pop()
   return segments
 }
@@ -121,7 +133,7 @@ export function getAllDocs(): DocEntry[] {
     const slug = toSlug(filePath)
     return {
       slug,
-      href: `/docs/${slug.join('/')}`,
+      href: `/${slug.join('/')}`,
       filePath,
       frontmatter: readFrontmatter(filePath),
     }
@@ -156,6 +168,7 @@ export function getNavigation(): ProductNav[] {
       label: PRODUCT_LABEL[product],
       sections: sectionNames.map((title) => ({
         title,
+        collapsible: COLLAPSIBLE_SECTIONS[product].includes(title),
         items: inProduct
           .filter((d) => d.frontmatter.section === title)
           .sort((a, b) => a.frontmatter.order - b.frontmatter.order)

@@ -46,12 +46,12 @@ auths-mcp wrap \
 
 In real mode the adapter POSTs a **live** charge to `api.stripe.com/v1/charges` and returns Stripe's real Charge object. Two things are non-negotiable here:
 
-- **The cap is mandatory.** Omit `--budget` and the gateway refuses to wrap the rail at all — {% verdict code="budget-required" /%}, fail-closed, before any rail is touched. Real money with a skippable cap is not an allowed shape. See [budgets](/docs/mcp/concepts/budgets).
+- **The cap is mandatory.** Omit `--budget` and the gateway refuses to wrap the rail at all — {% verdict code="budget-required" /%}, fail-closed, before any rail is touched. Real money with a skippable cap is not an allowed shape. See [budgets](/mcp/concepts/budgets).
 - **The mode is disclosed.** Every payment-rail wrap prints a `mode=real` banner and a `mode=real …` machine line at startup, so a live rail is never silent. Run `auths-mcp wrap --show-mode …` to resolve and disclose the mode **without** serving the proxy or making a charge.
 
 ## Custody — the agent never holds the key
 
-The live `sk_live_…` key lives in the gateway's [custody vault](/docs/mcp/concepts/custody) (`--custody-credential`), never with the agent. The agent holds only its scoped, budget-bound delegation. An agent that tries to reach Stripe without going through the gateway has **no credential** — so the boundary is unbypassable.
+The live `sk_live_…` key lives in the gateway's [custody vault](/mcp/concepts/custody) (`--custody-credential`), never with the agent. The agent holds only its scoped, budget-bound delegation. An agent that tries to reach Stripe without going through the gateway has **no credential** — so the boundary is unbypassable.
 
 ## How it works
 
@@ -67,7 +67,7 @@ agent ──tools/call──▶ gateway ──tools/call──▶ stripe-adapter
 - The gateway meters `charge.amount_captured` (cents). A **non-USD** charge is refused, not mis-metered.
 - An **over-cap** charge is refused {% verdict code="usage-cap-exceeded" /%} on its extracted ceiling **before** the adapter settles — Stripe is never charged past the cap.
 - The settle amount comes from the **response**, never an agent-declared number — so an agent cannot under-report a charge to slip the cap.
-- Spend on this rail and the [x402 rail](/docs/mcp/providers/x402) meters into one cross-rail cap; the [receipt](/docs/mcp/concepts/receipts) names the real `ch_…` and the cross-rail total.
+- Spend on this rail and the [x402 rail](/mcp/providers/x402) meters into one cross-rail cap; the [receipt](/mcp/concepts/receipts) names the real `ch_…` and the cross-rail total.
 
 ## The "small reconcile"
 
@@ -87,4 +87,4 @@ The adapter is built against Stripe's documented Charge object and verified agai
 
 To exercise the rail **without real money**, opt into sandbox rails with `--test-mode` (or `AUTHS_MCP_TEST_MODE=1` for the adapter) — the test tab under [Setup](#setup) shows the full command. Test mode resolves the Stripe rail to an `sk_test_…` key (still `api.stripe.com`, but a test-mode charge — no real money). The cap is **still mandatory**, and the mode is disclosed as `mode=test`.
 
-Use test mode to prove the cap refuses the over-cap call before you ever point a live `sk_live_…` key at the rail. Then walk the full live path: [Walkthrough: real money](/docs/mcp/guides/spend-real-money).
+Use test mode to prove the cap refuses the over-cap call before you ever point a live `sk_live_…` key at the rail. Then walk the full live path: [Walkthrough: real money](/mcp/guides/spend-real-money).

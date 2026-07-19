@@ -35,7 +35,7 @@ An agent at `$4.99` on Stripe cannot move to a second rail for fresh headroom â€
 `$4.99 + $4.99` is `$9.98` of a `$5` cap, so the next call on **either** rail is
 refused. Two siloed per-rail budgets would each wave that call through; the one
 cross-rail counter refuses it. The counter survives the session: it is held by the
-verifier and re-derived by the [offline audit](/docs/mcp/concepts/receipts), so an
+verifier and re-derived by the [offline audit](/mcp/concepts/receipts), so an
 operator cannot quietly reset it.
 
 ## The cap is mandatory
@@ -67,4 +67,4 @@ auths-mcp wrap --show-mode --scope paid.call --budget '$5' -- <downstream server
 Run it before every live wrap. When the output says `mode=real`, you know exactly
 which world goes live â€” and when you don't mean real money, `--test-mode` is the
 single opt-in. The full live path is the
-[walkthrough](/docs/mcp/guides/spend-real-money).
+[walkthrough](/mcp/guides/spend-real-money).

@@ -15,19 +15,23 @@ const nextConfig: NextConfig = {
   // getting-started tree) redirect in a single hop to the canonical quickstart.
   async redirects() {
     return [
-      { source: '/getting-started', destination: '/docs/idsigning/quickstart', permanent: true },
-      { source: '/docs/getting-started', destination: '/docs/idsigning/quickstart', permanent: true },
-      { source: '/docs/getting-started/:path*', destination: '/docs/idsigning/quickstart', permanent: true },
-      // Identity & signing moved under /docs/idsigning — keep old links working.
-      { source: '/docs/quickstart', destination: '/docs/idsigning/quickstart', permanent: false },
-      { source: '/docs/installation', destination: '/docs/idsigning/installation', permanent: false },
-      { source: '/docs/authentication', destination: '/docs/idsigning/authentication', permanent: false },
-      { source: '/docs/sign-commits', destination: '/docs/idsigning/sign-commits', permanent: false },
-      { source: '/docs/team-identities', destination: '/docs/idsigning/team-identities', permanent: false },
-      { source: '/docs/build-agents', destination: '/docs/idsigning/build-agents', permanent: false },
-      { source: '/docs/prove-provenance', destination: '/docs/idsigning/prove-provenance', permanent: false },
-      { source: '/docs/concepts/:path*', destination: '/docs/idsigning/concepts/:path*', permanent: false },
-      { source: '/docs/reference/:path*', destination: '/docs/idsigning/reference/:path*', permanent: false },
+      // The /docs prefix is gone — pages live at the root of docs.auths.dev.
+      // Strip it from every old URL (e.g. /docs/mcp → /mcp).
+      { source: '/docs', destination: '/mcp', permanent: false },
+      { source: '/docs/:path*', destination: '/:path*', permanent: false },
+      // Pre-idsigning flat identity URLs → their new home under /idsigning.
+      { source: '/quickstart', destination: '/idsigning/quickstart', permanent: false },
+      { source: '/installation', destination: '/idsigning/installation', permanent: false },
+      { source: '/authentication', destination: '/idsigning/authentication', permanent: false },
+      { source: '/sign-commits', destination: '/idsigning/sign-commits', permanent: false },
+      { source: '/team-identities', destination: '/idsigning/team-identities', permanent: false },
+      { source: '/build-agents', destination: '/idsigning/build-agents', permanent: false },
+      { source: '/prove-provenance', destination: '/idsigning/prove-provenance', permanent: false },
+      { source: '/concepts/:path*', destination: '/idsigning/concepts/:path*', permanent: false },
+      { source: '/reference/:path*', destination: '/idsigning/reference/:path*', permanent: false },
+      // Legacy getting-started.
+      { source: '/getting-started', destination: '/idsigning/quickstart', permanent: true },
+      { source: '/getting-started/:path*', destination: '/idsigning/quickstart', permanent: true },
     ]
   },
 }

@@ -21,7 +21,7 @@ auths whoami      # your identity
 auths status      # identity + signing overview
 ```
 
-You **prove** your identity by signing (`auths sign`); others **authenticate** you by verifying (`auths verify`) against a trusted copy of your public identity — entirely offline, no server in the loop. See the [quickstart](/docs/idsigning/quickstart).
+You **prove** your identity by signing (`auths sign`); others **authenticate** you by verifying (`auths verify`) against a trusted copy of your public identity — entirely offline, no server in the loop. See the [quickstart](/idsigning/quickstart).
 
 ## Trust instead of accounts
 
@@ -32,7 +32,7 @@ auths trust pin --did <their-identity> --key <pubkey-hex>   # trust an identity
 auths trust list
 ```
 
-See [Team Identities](/docs/idsigning/team-identities) for sharing trust across a team.
+See [Team Identities](/idsigning/team-identities) for sharing trust across a team.
 
 ## Authenticating agents and services
 
@@ -42,7 +42,7 @@ For AI agents, CI, and services, Auths issues a **scoped passport** — a delega
 - **Expiring** — set a lifetime so a leaked credential dies on its own.
 - **Revocable** — revocation is a logged fact, effective immediately.
 
-See the [bounded-agent gateway](/docs/mcp).
+See the [bounded-agent gateway](/mcp).
 
 ## Security
 
@@ -52,7 +52,7 @@ See the [bounded-agent gateway](/docs/mcp).
 
 ## Related
 
-- [Quickstart](/docs/idsigning/quickstart)
-- [Team Identities](/docs/idsigning/team-identities)
-- [The bounded agent](/docs/mcp)
-- [Identity Model](/docs/idsigning/concepts/identity-model)
+- [Quickstart](/idsigning/quickstart)
+- [Team Identities](/idsigning/team-identities)
+- [The bounded agent](/mcp)
+- [Identity Model](/idsigning/concepts/identity-model)

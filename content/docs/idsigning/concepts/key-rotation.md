@@ -14,5 +14,5 @@ Auths uses pre-rotation: each key event commits to the *next* key in advance, so
 
 For what exists today:
 
-- [Sign Commits → Key management](/docs/idsigning/sign-commits#key-management)
+- [Sign Commits → Key management](/idsigning/sign-commits#key-management)
 - `auths id rotate --help` — the rotation command

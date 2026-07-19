@@ -62,8 +62,8 @@ Short lifetimes are cheap; use them.
 The agent held a delegation with three bounds — scope, budget, expiry — and the
 gateway refused the call that exceeded one of them, at the protocol boundary,
 fail-closed. How the gate decides is one short page:
-[how it works](/docs/mcp/concepts/how-it-works).
+[how it works](/mcp/concepts/how-it-works).
 
 When you're ready to bound something that spends, go to
-[spend real money](/docs/mcp/guides/spend-real-money) — same gate, real rails,
+[spend real money](/mcp/guides/spend-real-money) — same gate, real rails,
 `--test-mode` first.

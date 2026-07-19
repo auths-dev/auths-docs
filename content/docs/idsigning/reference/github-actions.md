@@ -22,4 +22,4 @@ Two first-party actions exist:
     identity-bundle: .auths/ci-bundle.json
 ```
 
-See [Prove Provenance](/docs/idsigning/prove-provenance) and [Build Agents](/docs/idsigning/build-agents) for working workflows, and each action's README for the full input list.
+See [Prove Provenance](/idsigning/prove-provenance) and [Build Agents](/idsigning/build-agents) for working workflows, and each action's README for the full input list.

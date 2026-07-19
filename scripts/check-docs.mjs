@@ -54,15 +54,16 @@ function walk(dir) {
 }
 
 const files = walk(CONTENT)
+// Pages live at the root of docs.auths.dev (the /docs prefix is gone — see
+// next.config.ts), so internal links validate against root-relative slugs.
 const slugs = new Set(
   files.map((f) => {
     const rel = path.relative(CONTENT, f).replace(/\.md$/, '')
     const segs = rel.split(path.sep)
     if (segs[segs.length - 1] === 'index') segs.pop()
-    return '/docs/' + segs.join('/')
+    return '/' + segs.join('/')
   })
 )
-slugs.add('/docs')
 
 const failures = []
 const warnings = []
@@ -102,7 +103,7 @@ for (const file of files) {
   // 3. links
   for (const m of source.matchAll(/\[[^\]]*\]\(([^)\s]+)\)/g)) {
     const href = m[1]
-    if (href.startsWith('#')) continue
+    if (href.startsWith('#') || href.startsWith('mailto:')) continue
     if (href.startsWith('/')) {
       const target = href.split('#')[0]
       if (!slugs.has(target)) failures.push(`${rel}: internal link ${target} resolves to no page`)
@@ -110,7 +111,7 @@ for (const file of files) {
       if (!externalLinks.has(href)) externalLinks.set(href, [])
       externalLinks.get(href).push(rel)
     } else {
-      failures.push(`${rel}: relative link "${href}" — use root-relative /docs/... paths`)
+      failures.push(`${rel}: relative link "${href}" — use root-relative /mcp/... paths`)
     }
   }
 }

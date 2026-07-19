@@ -39,9 +39,9 @@ The value is injected into the **downstream process only**. It never touches the
 wire, never appears in receipts, and is never logged or echoed — a malformed
 `--custody-credential` is reported by NAME alone. The agent-side surface carries
 exactly one thing: the delegation, whose scope, budget, and expiry the
-[gate](/docs/mcp/concepts/how-it-works) checks on every call.
+[gate](/mcp/concepts/how-it-works) checks on every call.
 
 Replacing a leaked long-lived key with a bounded delegation is the point: if the
 agent's delegation leaks, it is scoped, capped, expiring, and
-[revocable in one step](/docs/mcp/concepts/receipts) — none of which is true of the
+[revocable in one step](/mcp/concepts/receipts) — none of which is true of the
 provider secret it replaced.
