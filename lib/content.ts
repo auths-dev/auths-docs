@@ -11,11 +11,16 @@ import * as yaml from 'js-yaml'
 
 const CONTENT_DIR = path.join(process.cwd(), 'content/docs')
 
+/** The top-level areas. Each owns its own Reference and Glossary. */
+export type ProductKey = 'mcp' | 'identity' | 'witness'
+
+const PRODUCTS: readonly ProductKey[] = ['mcp', 'identity', 'witness'] as const
+
 export interface DocFrontmatter {
   title: string
   description: string
   /** Which product world the page belongs to. */
-  product: 'mcp' | 'identity'
+  product: ProductKey
   /** The sidebar section (eyebrow) the page lives under. */
   section: string
   /** Sort order within its section. */
@@ -42,35 +47,30 @@ export interface NavItem {
 export interface NavSection {
   title: string
   items: NavItem[]
-  /** Large topics render as one collapsible row; flat sections stay open. */
-  collapsible: boolean
 }
 
 export interface ProductNav {
-  product: 'mcp' | 'identity'
+  product: ProductKey
   label: string
   sections: NavSection[]
 }
 
 /** Section display order per product — the only hand-maintained nav input. */
-const SECTION_ORDER: Record<'mcp' | 'identity', string[]> = {
-  mcp: ['Get started', 'Core ideas', 'Spend real money', 'Witness network'],
+const SECTION_ORDER: Record<ProductKey, string[]> = {
+  mcp: ['Get started', 'Core ideas', 'Spend real money'],
   identity: ['Guides', 'Concepts', 'Reference'],
+  // Organised by who you are, not by protocol concept. Reference and Glossary
+  // sit last, inside the area — looking up a flag never leaves the area.
+  witness: ['Overview', 'Users', 'Operators', 'Reference', 'Glossary'],
 }
 
-/**
- * Large topics that collapse to a single sidebar row (expanded when the
- * reader is inside them) — the second and last hand-maintained nav input.
- * Keeps a many-page topic from flooding the sidebar.
- */
-const COLLAPSIBLE_SECTIONS: Record<'mcp' | 'identity', string[]> = {
-  mcp: ['Witness network'],
-  identity: [],
-}
+// Every section is a disclosure (see components/docs/NavSection.tsx), so there
+// is no per-area collapse list to maintain — one shape, every area.
 
-const PRODUCT_LABEL: Record<'mcp' | 'identity', string> = {
+const PRODUCT_LABEL: Record<ProductKey, string> = {
   mcp: 'auths-mcp',
   identity: 'Identity & signing',
+  witness: 'Witness network',
 }
 
 const REQUIRED_FIELDS = [
@@ -108,9 +108,9 @@ function readFrontmatter(filePath: string): DocFrontmatter {
       `frontmatter contract: ${path.relative(process.cwd(), filePath)} is missing [${missing.join(', ')}]`
     )
   }
-  if (fm.product !== 'mcp' && fm.product !== 'identity') {
+  if (!PRODUCTS.includes(fm.product as ProductKey)) {
     throw new Error(
-      `frontmatter contract: ${path.relative(process.cwd(), filePath)} has product="${String(fm.product)}" (must be "mcp" or "identity")`
+      `frontmatter contract: ${path.relative(process.cwd(), filePath)} has product="${String(fm.product)}" (must be one of ${PRODUCTS.join(', ')})`
     )
   }
   return fm as unknown as DocFrontmatter
@@ -154,7 +154,7 @@ export function getDocBySlug(slug: string[]): DocEntry | null {
  */
 export function getNavigation(): ProductNav[] {
   const docs = getAllDocs()
-  return (['mcp', 'identity'] as const).map((product) => {
+  return PRODUCTS.map((product) => {
     const inProduct = docs.filter((d) => d.frontmatter.product === product)
     const sectionNames = [
       ...SECTION_ORDER[product].filter((s) => inProduct.some((d) => d.frontmatter.section === s)),
@@ -168,7 +168,6 @@ export function getNavigation(): ProductNav[] {
       label: PRODUCT_LABEL[product],
       sections: sectionNames.map((title) => ({
         title,
-        collapsible: COLLAPSIBLE_SECTIONS[product].includes(title),
         items: inProduct
           .filter((d) => d.frontmatter.section === title)
           .sort((a, b) => a.frontmatter.order - b.frontmatter.order)

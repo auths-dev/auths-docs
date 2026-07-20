@@ -19,6 +19,14 @@ const nextConfig: NextConfig = {
       // Strip it from every old URL (e.g. /docs/mcp → /mcp).
       { source: '/docs', destination: '/mcp', permanent: false },
       { source: '/docs/:path*', destination: '/:path*', permanent: false },
+      // The witness network is its own area — it anchors BOTH products and has
+      // an operator audience that never touches auths-mcp.
+      { source: '/mcp/witness-network', destination: '/witness-network', permanent: false },
+      {
+        source: '/mcp/witness-network/:path*',
+        destination: '/witness-network/:path*',
+        permanent: false,
+      },
       // Pre-idsigning flat identity URLs → their new home under /idsigning.
       { source: '/quickstart', destination: '/idsigning/quickstart', permanent: false },
       { source: '/installation', destination: '/idsigning/installation', permanent: false },
