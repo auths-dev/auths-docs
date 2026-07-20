@@ -41,9 +41,31 @@ export function CodeTabs({ children }: { children: ReactNode }) {
   const tabs = Children.toArray(children).filter(
     (c): c is ReactElement<CodeTabProps> => isValidElement(c) && 'lang' in ((c.props as object) ?? {})
   )
+  const langs = tabs.map((t) => t.props.lang)
+
+  // Tabs are identified by language and sync site-wide, so a duplicated `lang`
+  // makes every tab after the first unreachable — `indexOf` always resolves to
+  // the first match, and clicking the others is a no-op. Surface the authoring
+  // mistake rather than shipping dead tabs.
+  const langSignature = langs.join('|')
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') return
+    const seen = new Set<string>()
+    const duplicated = new Set<string>()
+    for (const l of langSignature.split('|')) {
+      if (seen.has(l)) duplicated.add(l)
+      seen.add(l)
+    }
+    if (duplicated.size > 0) {
+      console.warn(
+        `CodeTabs: duplicate lang(s) [${[...duplicated].join(', ')}] — use one tab per language. ` +
+          'For non-language variants (deploy tools, platforms), use separate headed sections instead.'
+      )
+    }
+  }, [langSignature])
+
   if (tabs.length === 0) return null
 
-  const langs = tabs.map((t) => t.props.lang)
   // Until hydration, and whenever the chosen language is absent, show the
   // block's own first tab.
   const chosen = hydrated && lang && langs.includes(lang) ? lang : langs[0]
@@ -71,7 +93,7 @@ export function CodeTabs({ children }: { children: ReactNode }) {
           const active = i === activeIndex
           return (
             <button
-              key={tab.props.lang}
+              key={`${tab.props.lang}-${i}`}
               ref={(el) => {
                 tabRefs.current[i] = el
               }}
@@ -100,7 +122,7 @@ export function CodeTabs({ children }: { children: ReactNode }) {
       </div>
       {tabs.map((tab, i) => (
         <div
-          key={tab.props.lang}
+          key={`${tab.props.lang}-${i}`}
           role="tabpanel"
           id={`${baseId}-panel-${i}`}
           aria-labelledby={`${baseId}-tab-${i}`}
