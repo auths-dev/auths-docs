@@ -59,7 +59,7 @@ and no others:
 | `proof-unauthentic` | the signature does not verify against the agent's key |
 | `consistent` | the clean audit: every proof verifies, the spend re-derives |
 | `tampered-proof` | a signed proof was altered — caught offline |
-| `dropped-call` | a record was removed from the log — each receipt back-links to the prior one |
+| `chain-break` | a record was removed from the log — each receipt back-links to the prior one |
 | `budget-mismatch` | the durable cross-rail counter disagrees with the log (e.g. a truncated tail) |
 
 The last three are why handing you the log is not an act of trust: an **edited**

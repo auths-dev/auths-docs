@@ -13,29 +13,30 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
+import { createRequire } from 'node:module'
+
+const require = createRequire(import.meta.url)
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
 const CONTENT = path.join(ROOT, 'content/docs')
 const checkExternal = !process.argv.includes('--no-external')
 
-/** The exact verdict strings the gateway source defines — nothing else may appear. */
-const VERDICTS = new Set([
-  'allowed',
-  'outside-agent-scope',
-  'usage-cap-exceeded',
-  'metered-amount-required',
-  'usage-counter-rolled-back',
-  'agent-expired',
-  'revoked',
-  'stale',
-  'budget-required',
-  'proof-unauthentic',
-  'consistent',
-  'tampered-proof',
-  'cost-mismatch',
-  'budget-mismatch',
-  'dropped-call',
-])
+/**
+ * The exact verdict strings the source defines — nothing else may appear.
+ * Loaded from the SDK's shipped verdict manifest (contracts/v1, generated from
+ * the gateway source), every family flattened into one set. The package's
+ * `exports` map does not expose conformance/*, so resolve the file from the
+ * package root rather than subpath-requiring it.
+ */
+const manifestPath = path.join(
+  path.dirname(require.resolve('@auths-dev/sdk/package.json')),
+  'conformance/verdicts.json'
+)
+const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+if (manifest.version !== 'contracts/v1') {
+  throw new Error(`unexpected verdict manifest version: ${manifest.version}`)
+}
+const VERDICTS = new Set(Object.values(manifest.verdicts).flat())
 
 const BANNED = [
   { re: /blockchain|decentraliz|self-sovereign/i, why: 'category vocabulary' },

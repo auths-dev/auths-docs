@@ -125,6 +125,10 @@ export function buildConfig(): Config {
           code: { type: String, required: true },
         },
       },
+      'witness-anchor-loop': {
+        render: 'WitnessAnchorLoop',
+        selfClosing: true,
+      },
     },
   }
 }

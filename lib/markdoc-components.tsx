@@ -7,6 +7,7 @@ import { Steps, Step } from '@/components/markdoc/Steps'
 import { CodeTabs, CodeTab } from '@/components/markdoc/CodeTabs'
 import { VerdictChip } from '@/components/markdoc/VerdictChip'
 import { HeadingAnchor } from '@/components/markdoc/HeadingAnchor'
+import { WitnessAnchorLoop } from '@/components/markdoc/WitnessAnchorLoop'
 
 /** The single map from Markdoc tag names to React components. */
 const components = {
@@ -20,6 +21,7 @@ const components = {
   CodeTab,
   VerdictChip,
   HeadingAnchor,
+  WitnessAnchorLoop,
 }
 
 /** Renders a transformed Markdoc tree to React — no HTML strings, ever. */

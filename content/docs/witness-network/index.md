@@ -21,6 +21,15 @@ Witnesses co-sign every step forward. Rolling history back then means
 contradicting signatures sitting in append-only logs — the rollback stops being
 a deletion and becomes evidence.
 
+## How it works
+
+An agent emits one aggregate — head, count, cumulative — to a set of independent
+witnesses. Each cosigns only monotone growth, so presenting the same index with a
+different head yields a publishable duplicity proof instead of a signature. The
+finalized anchor is then read offline by watchers and verifiers alike.
+
+{% witness-anchor-loop /%}
+
 ## Start here
 
 {% card-group %}

@@ -118,7 +118,7 @@ auths-mcp verify-spend --log spend.jsonl --registry ./registry \
 
 Anything but {% verdict code="consistent" /%} is a loud, specific verdict — an edited
 record is {% verdict code="tampered-proof" /%}, a removed one
-{% verdict code="dropped-call" /%}, a truncated tail
+{% verdict code="chain-break" /%}, a truncated tail
 {% verdict code="budget-mismatch" /%}. See
 [what the audit catches](/mcp/concepts/receipts#what-the-audit-catches).
 
