@@ -7,7 +7,7 @@ order: 6
 lastReviewed: "2026-07-20"
 ---
 
-The [public directory](https://auths.dev/network) lists conformant witnesses with
+The [public directory](https://explorer.auths.dev) lists conformant witnesses with
 the facts principals pick sets by. Listing has one bar: pass the harness.
 
 ## Submit

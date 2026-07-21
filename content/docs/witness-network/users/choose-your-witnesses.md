@@ -32,7 +32,7 @@ strongest witness in your set is one your counterparty or regulator runs.
 
 ## Find operators
 
-- **[The public directory](https://auths.dev/network)** — conformant witnesses
+- **[The public directory](https://explorer.auths.dev)** — conformant witnesses
   with their operator facts and live status.
 - **[Run one yourself](/witness-network/operators/run-a-node)** — a fine first
   member, a bad only member.

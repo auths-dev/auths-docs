@@ -7,16 +7,19 @@ order: 1
 lastReviewed: "2026-07-20"
 ---
 
-**Before you start:** Docker, and a local copy of the parties' public identity
-registry (see [Keep the registry synced](/witness-network/operators/keep-the-registry-synced)).
+**Before you start:** just Docker. A fresh witness boots on an empty registry
+and grows as it receipts events — you only need the parties' registry once you
+want to *anchor for* them (see [Keep the registry synced](/witness-network/operators/keep-the-registry-synced)).
 
 ```bash
 git clone https://github.com/auths-dev/auths
 cd auths/deploy/witness
 
 export WITNESS_SEED=$(openssl rand -hex 32)   # this IS your identity — keep it
-export WITNESS_REGISTRY=/path/to/registry     # required; mounted read-only
 export WITNESS_NAME=acme-w1
+# Optional — where to keep the parties' registry (defaults to ./registry beside
+# the compose file). Sync it before you expect to anchor for those parties.
+export WITNESS_REGISTRY=./registry
 
 docker compose up -d
 ```
@@ -28,7 +31,7 @@ curl -s localhost:3333/health
 ```
 
 ```output
-{"status":"ok","roles":["anchor","kel","cosign"],"witness":"acme-w1"}
+{"status":"ok","witness_did":"did:key:z6Mk…","first_seen_count":0,"receipt_count":0}
 ```
 
 Your **member key** is printed at first boot — that's what principals add to
@@ -64,8 +67,12 @@ witness-node serve --roles anchor,kel,cosign --bind 0.0.0.0:3333 \
 
 **If it fails:**
 
-- *`set WITNESS_REGISTRY…`* — compose requires it; there is no default.
-- *a role refuses to start* — that role's required config is missing. The node
-  fails closed with a named error rather than serving a half-configured witness.
+- *anchors 404 though `/health` is green* — the node is up but hasn't synced the
+  parties' registry, so it can't resolve their keys yet. Sync it (see [Keep the
+  registry synced](/witness-network/operators/keep-the-registry-synced)); a
+  fresh node is "up" before it's "useful" for a given party.
+- *a role refuses to start* — a role whose config is genuinely missing fails
+  closed with a named error (e.g. the `registry` role needs the `git` binary on
+  PATH), rather than serving a half-configured witness.
 
 **Next:** [Deploy for real](/witness-network/operators/deploy-for-real).
