@@ -1,3 +1,6 @@
+'use client'
+
+import { motion } from 'motion/react'
 import type { SVGProps, ReactNode } from 'react'
 
 /**
@@ -5,8 +8,7 @@ import type { SVGProps, ReactNode } from 'react'
  *
  * Moved from the auths.dev marketing site (its `/network` page was retired in
  * favour of the verifying explorer). Rendered here as the witness-network
- * overview diagram via the Markdoc `{% witness-anchor-loop /%}` tag. Static
- * (no scroll animation) — a diagram in docs doesn't need motion.
+ * overview diagram via the Markdoc `{% witness-anchor-loop /%}` tag.
  */
 
 type IconProps = SVGProps<SVGSVGElement> & { size?: number }
@@ -54,12 +56,18 @@ const ShieldIcon = svg(
   <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />,
 )
 
+const container = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }
+const item = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+}
+
 const SEAL = '#e8845c'
 const MUTE = '#9a948c'
 
 function Down({ label }: { label: string }) {
   return (
-    <div className="flex justify-center">
+    <motion.div variants={item} className="flex justify-center">
       <div className="flex flex-col items-center gap-1 py-0.5">
         <div className="h-4 w-px" style={{ background: `linear-gradient(${SEAL}80, ${SEAL}22)` }} />
         <span className="text-[10px]" style={{ color: `${SEAL}99` }}>
@@ -67,7 +75,7 @@ function Down({ label }: { label: string }) {
         </span>
         <div className="h-4 w-px" style={{ background: `linear-gradient(${SEAL}22, ${SEAL}80)` }} />
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -83,7 +91,8 @@ function Node({
   glow?: boolean
 }) {
   return (
-    <div
+    <motion.div
+      variants={item}
       className="rounded-lg border px-4 py-3"
       style={{
         borderColor: `${SEAL}33`,
@@ -96,7 +105,7 @@ function Node({
         <span className="font-mono text-xs font-medium">{title}</span>
       </div>
       {sub ? <p className="mt-1 text-xs" style={{ color: MUTE }}>{sub}</p> : null}
-    </div>
+    </motion.div>
   )
 }
 
@@ -144,7 +153,13 @@ export function WitnessAnchorLoop() {
           no per-call data leaves home
         </span>
       </div>
-      <div className="p-6">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-40px' }}
+        className="p-6"
+      >
         <div className="space-y-3">
           <Node
             icon={<ScrollIcon size={16} />}
@@ -152,17 +167,17 @@ export function WitnessAnchorLoop() {
             sub="Every settled call appends to a signed hash chain. What leaves: one aggregate — head, count, cumulative — committing to all of it, revealing none of it."
           />
           <Down label="one signed anchor ⟨seed, head, k, cum, τ⟩" />
-          <div className="grid grid-cols-3 gap-2">
+          <motion.div variants={item} className="grid grid-cols-3 gap-2">
             <Witness name="witness A" where="operator 1 · US" />
             <Witness name="witness B" where="operator 2 · EU" />
             <Witness name="witness C" where="operator 3 · APAC" />
-          </div>
-          <div className="flex items-center justify-center">
+          </motion.div>
+          <motion.div variants={item} className="flex items-center justify-center">
             <span className="text-center text-[10px]" style={{ color: `${SEAL}cc` }}>
               each accepts only monotone growth — same index, different head ⇒ a publishable
               duplicity proof
             </span>
-          </div>
+          </motion.div>
           <Down label="t-of-N cosignatures + log inclusion proofs" />
           <Node
             icon={<ShieldIcon size={16} />}
@@ -171,7 +186,7 @@ export function WitnessAnchorLoop() {
             glow
           />
           <Down label="read by anyone" />
-          <div className="grid grid-cols-2 gap-2">
+          <motion.div variants={item} className="grid grid-cols-2 gap-2">
             <div
               className="rounded-lg border px-3 py-2.5 text-center"
               style={{ borderColor: `${SEAL}22`, background: `${SEAL}08` }}
@@ -200,15 +215,15 @@ export function WitnessAnchorLoop() {
                 offline, free — now with fresh · stale · unanchored
               </div>
             </div>
-          </div>
-          <div className="flex flex-wrap justify-center gap-2 pt-1">
+          </motion.div>
+          <motion.div variants={item} className="flex flex-wrap justify-center gap-2 pt-1">
             <Chip text="verification stays offline" />
             <Chip text="rollback ⇒ signed contradiction" />
             <Chip text="two histories ⇒ duplicity proof" />
             <Chip text="witnesses see no per-call rows" accent={MUTE} />
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
