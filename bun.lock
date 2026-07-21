@@ -16,6 +16,7 @@
         "react-dom": "^19.0.0",
       },
       "devDependencies": {
+        "@auths-dev/sdk": "0.1.15",
         "@tailwindcss/postcss": "^4.2.2",
         "@tailwindcss/typography": "^0.5.19",
         "@types/github-slugger": "^2.0.0",
@@ -34,6 +35,18 @@
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
+
+    "@auths-dev/sdk": ["@auths-dev/sdk@0.1.15", "", { "optionalDependencies": { "@auths-dev/sdk-darwin-arm64": "0.1.15", "@auths-dev/sdk-linux-arm64-gnu": "0.1.15", "@auths-dev/sdk-linux-x64-gnu": "0.1.15", "@auths-dev/sdk-win32-arm64-msvc": "0.1.15", "@auths-dev/sdk-win32-x64-msvc": "0.1.15" } }, "sha512-aWIjP2IDdIw0Qdiin/THaBJGjfx7FVy71JAkMiG8tTdng6xtV7u7nzyNppdIe+2UxaUPMM90jf4CTI0mzVFLFA=="],
+
+    "@auths-dev/sdk-darwin-arm64": ["@auths-dev/sdk-darwin-arm64@0.1.15", "", { "os": "darwin", "cpu": "arm64" }, "sha512-N1hPXwZH2ZsIS7hPHZe4bOrNr3PBU/Ta6apQrV6Jso+bjqZqIb0NOwVH40XtwkUYzXcNpkQ1Rz6UKmH6ix7b0Q=="],
+
+    "@auths-dev/sdk-linux-arm64-gnu": ["@auths-dev/sdk-linux-arm64-gnu@0.1.15", "", { "os": "linux", "cpu": "arm64" }, "sha512-rTwtoSZqrYAkcx/QECyQqEJKQ9mcZEYWTQMsHAN63Bs+7XeZ9H939zOa/CSAo1N17fkhDBFLT5wtVAKrRaRVBw=="],
+
+    "@auths-dev/sdk-linux-x64-gnu": ["@auths-dev/sdk-linux-x64-gnu@0.1.15", "", { "os": "linux", "cpu": "x64" }, "sha512-r92MxjM84yweV4CD1dorLcG+AKg18/OkQ3HbWf9M8S2h+iIga1e+0wGgSEoDgFypgoCVXvD0gEqBmEHoA1ZRzw=="],
+
+    "@auths-dev/sdk-win32-arm64-msvc": ["@auths-dev/sdk-win32-arm64-msvc@0.1.15", "", { "os": "win32", "cpu": "arm64" }, "sha512-pHr5KADJAsK28C5iLWNtNHLvEehfKBg/tUxoKtFPTySRlys0SZpCXspO7FwaTgagzlBwN3uZqwk7oc+f91MhQA=="],
+
+    "@auths-dev/sdk-win32-x64-msvc": ["@auths-dev/sdk-win32-x64-msvc@0.1.15", "", { "os": "win32", "cpu": "x64" }, "sha512-23A8ihkJ8r36rqh64na0rZcGIqjdg4TFrhvcDYzhKr59HR+TlDxoH0Z+WlSzSfBkdQBx2xT4cJyTetVpIcpcRA=="],
 
     "@babel/code-frame": ["@babel/code-frame@7.29.0", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.28.5", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw=="],
 
