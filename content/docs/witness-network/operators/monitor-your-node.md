@@ -15,8 +15,8 @@ curl -s localhost:3333/build
 ```
 
 ```output
-{"status":"ok","roles":["anchor","kel","cosign"],"witness":"acme-w1"}
-{"version":"0.1.12","running_digest":"sha256:…","attestation":{…}}
+{"status":"ok","witness_did":"did:key:z6Mk…","first_seen_count":0,"receipt_count":0}
+{"version":"0.1.16","running_digest":"sha256:…","attestation":{…}}
 ```
 
 `/build` is the node's **signed** statement of which binary it runs — checked
@@ -24,11 +24,12 @@ against the digest you deployed.
 
 ## The console
 
-Open your node in the network console at
-[auths.dev/network](https://auths.dev/network) → **node**. It reads `/health`
-and `/build` and re-verifies the signed payloads **in your browser** with the
-published WASM verifier. The node is treated as an untrusted data source;
-trust comes from the in-browser check, never the connection.
+Open your node in the explorer at
+[explorer.auths.dev](https://explorer.auths.dev) — point it at your own node
+with `?witness=<your-node-url>` on any member page. It reads the public GETs and
+re-verifies the signed payloads **in your browser** with the published WASM
+verifier. The node is treated as an untrusted data source; trust comes from the
+in-browser check, never the connection.
 
 ## Container healthcheck
 

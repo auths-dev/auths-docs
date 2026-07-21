@@ -48,6 +48,7 @@ distroless image where no HTTP tooling exists.
 | `anchor` | Spend-anchor acceptance and reads | `--data-dir`, `--registry` |
 | `kel` | Receipt witnessing for key histories | `--data-dir` |
 | `cosign` | Transparency-log checkpoint cosigning | `--data-dir` |
+| `registry` | Serve the held `refs/auths/*` read-only over git smart-HTTP (the node is its own resolution surface) | `--registry`, `git` on PATH |
 
 All roles share one identity seed, one data dir, and one hardening envelope. A
 role whose requirements aren't configured **refuses to start with a named

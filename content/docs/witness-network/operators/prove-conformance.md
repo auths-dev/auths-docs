@@ -13,8 +13,11 @@ Drive your live node through the published suite:
 cargo xtask witness-conformance --url http://127.0.0.1:3333
 ```
 
+The first run compiles the `xtask` crate — expect a few minutes of Rust build
+before any output; subsequent runs are instant.
+
 ```output
-witness-conformance: live endpoint http://127.0.0.1:3333 passed 4/4 transport checks
+witness-conformance: live endpoint http://127.0.0.1:3333 passed 4/4 transport checks — certified did:key:z6Mk…
 ```
 
 Emit the machine-readable vectors to drive your own harness (or a node you built

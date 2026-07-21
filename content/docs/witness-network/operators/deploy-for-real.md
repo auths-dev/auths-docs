@@ -15,6 +15,7 @@ The same templates the first-party quorum runs ship in `deploy/witness/`.
 helm install acme-w1 ./deploy/witness/helm \
   --set image.digest=sha256:<digest> \
   --set seed.existingSecret=acme-w1-seed \
+  --set registry.url=https://network.auths.dev \
   --set anchorStore.size=10Gi
 ```
 

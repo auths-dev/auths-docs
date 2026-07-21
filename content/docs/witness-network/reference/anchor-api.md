@@ -47,7 +47,9 @@ curl https://w1.example.com/v1/anchor/<seed-id>
 
 ## `GET /health`
 
-Liveness. `200` with the served roles and witness name.
+Liveness. `200` with `{status, witness_did, first_seen_count, receipt_count}`
+(the KEL role's shape; an anchor-only node returns `{up, roles, witness_name}`).
+`witness_did` is the node's member key — the value principals add to their set.
 
 ## `GET /build`
 
